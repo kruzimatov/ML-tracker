@@ -1,0 +1,69 @@
+.wrap { max-width: 980px; margin: 0 auto; padding: calc(var(--tb-h) + 50px) 24px 100px; font-size: 15.5px; line-height: 1.7; }
+.masthead { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 26px; }
+.kicker { font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+.title { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600; margin: 0 0 12px; text-wrap: balance; }
+.lede { color: var(--text2); max-width: 70ch; margin-bottom: 10px; }
+.slipNote { margin-top: 16px; padding: 12px 16px; background: var(--red-dim); border: 1px solid rgba(232, 105, 95, 0.3); border-radius: 8px; font-size: 0.82rem; color: var(--text2); }
+.slipNote b { color: var(--red); }
+.statRow { display: flex; gap: 28px; margin: 18px 0 4px; flex-wrap: wrap; }
+.stat { font-family: var(--font-mono); }
+.statN { font-size: 1.5rem; color: var(--text); font-weight: 600; display: block; }
+.statL { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.pbar { height: 5px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin: 16px 0 4px; }
+.pbarFill { height: 100%; background: var(--teal); transition: width 0.3s; }
+.pbarLabel { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); }
+.controls { margin-top: 14px; }
+.controls button { background: var(--glass); border: 1px solid var(--border); color: var(--text2); padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: var(--font-mono); }
+.controls button:hover { border-color: var(--teal); color: var(--text); }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 28px 0 14px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.lsq { width: 10px; height: 10px; border-radius: 2px; border: 1.5px solid var(--border); display: inline-block; }
+.lsqGold { background: var(--gold); border-color: var(--gold); }
+.lsqTeal { background: var(--teal); border-color: var(--teal); }
+.ldot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); border: 1.5px solid var(--accent); display: inline-block; }
+
+.week { border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; background: var(--glass); scroll-margin-top: calc(var(--tb-h) + 20px); }
+.current { border-color: var(--teal); background: var(--teal-dim); }
+.weekHead { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.weekTitle { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; }
+.wn { color: var(--text3); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 400; margin-right: 8px; }
+.weekDates { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); }
+.weekPhase { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.nowTag { font-family: var(--font-mono); font-size: 0.62rem; background: var(--teal); color: #0b0f14; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 8px; }
+.weekWhy { color: var(--text2); font-size: 0.87rem; margin: 6px 0 10px; }
+.weekHow { margin: 0 0 12px 20px; color: var(--text2); font-size: 0.84rem; }
+.weekHow li { margin-bottom: 4px; }
+
+.linkRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.linkChip { font-family: var(--font-mono); font-size: 0.68rem; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--border); text-decoration: none; color: var(--text2); background: transparent; cursor: pointer; }
+.linkChip:hover { border-color: var(--text2); color: var(--text); }
+.internal { color: var(--teal); border-color: rgba(79, 176, 198, 0.35); }
+.internal:hover { border-color: var(--teal); background: var(--teal-dim); color: var(--teal); }
+
+.trackLabel { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin: 14px 0 6px; }
+.dayStrip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.dayBox { width: 30px; height: 30px; border-radius: 6px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); transition: all 0.15s; }
+.dayBox:hover { border-color: var(--text2); }
+.dayBox.done { background: var(--gold); border-color: var(--gold); color: #0b0f14; font-weight: 600; }
+.jobRow { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
+.jobDot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; transition: all 0.15s; }
+.jobDot:hover { border-color: var(--text2); }
+.jobDot.done { background: var(--accent); border-color: var(--accent); }
+
+.deliverRow { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; }
+.deliverRow:hover { border-color: var(--teal); }
+.deliverRow.done { background: var(--teal-dim); border-color: rgba(79, 176, 198, 0.45); }
+.deliverCheck { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--text3); flex-shrink: 0; }
+.deliverRow.done .deliverCheck { background: var(--teal); border-color: var(--teal); }
+.deliverText { font-size: 0.84rem; color: var(--text2); flex: 1; }
+.deliverRow.done .deliverText { color: var(--text); }
+.jumpLink { font-size: 0.7rem; font-family: var(--font-mono); color: var(--teal); background: transparent; border: none; border-bottom: 1px solid transparent; cursor: pointer; flex-shrink: 0; }
+.jumpLink:hover { border-bottom-color: var(--teal); }
+
+.footnote { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text3); line-height: 1.7; }
+
+@media (max-width: 640px) {
+  .title { font-size: 1.7rem; }
+  .dayBox { width: 26px; height: 26px; }
+}
