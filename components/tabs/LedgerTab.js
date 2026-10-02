@@ -58,7 +58,7 @@ export default function LedgerTab({ state, setState }) {
   const toggle = (k) => setState((s) => ({ ...s, [k]: !s[k] }));
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} mc-fade`}>
       <div className={styles.masthead}>
         <div className={styles.kicker}>Index · not a replacement</div>
         <h1 className={styles.title}>The Ledger</h1>

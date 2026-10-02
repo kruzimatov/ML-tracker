@@ -3,6 +3,9 @@
 import "../content.css";
 import DocShell from "./DocShell";
 import { MODULES } from "./scratchData";
+import { EXAMPLES } from "./scratchExtras";
+import Extras from "./Extras";
+import Html from "./Html";
 import styles from "./ScratchTab.module.css";
 
 const MILESTONES = ["learn", "derive", "build", "apply", "teach"];
@@ -107,7 +110,12 @@ export default function ScratchTab({ state, setState }) {
               ))}
               <span className={styles.mcFrac}>{modDone(m.mod)}/5</span>
             </div>
-            <div className="mc-content" data-variant="scratch" dangerouslySetInnerHTML={{ __html: m.body }} />
+            <Html html={m.body} variant="scratch" />
+            <Extras id={m.id} variant="scratch" example={EXAMPLES[m.id]} />
+            <div className={styles.pn}>
+              {i > 0 ? <button onClick={() => scrollTo(MODULES[i - 1].id)}>← {MODULES[i - 1].name}</button> : <span />}
+              {i < MODULES.length - 1 ? <button onClick={() => scrollTo(MODULES[i + 1].id)}>{MODULES[i + 1].name} →</button> : <span />}
+            </div>
             {last && <div className={styles.trackEnd}>End of {TRACK_NAME[m.track]} · {group.length} / {group.length} modules</div>}
           </section>
         );

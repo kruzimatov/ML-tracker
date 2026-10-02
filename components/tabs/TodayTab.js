@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 import { PLAN_START, WEEKS } from "./roadmapData";
 import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
+import { COURSE, SQUARES } from "./courseData";
 import styles from "./TodayTab.module.css";
 
 const NOT_READY = -1000000;
@@ -18,9 +19,9 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
-  if (dayN === NOT_READY) return <div className={styles.wrap} />;
+  if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
   const toggle = (key) => setRoadmap((s) => ({ ...s, [key]: !s[key] }));
   const checked = (n) => !!roadmap[dayKey(n)];
@@ -56,6 +57,8 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, jumpT
   const nextModule = MODULES.find(
     (m) => ["learn", "derive", "build", "apply", "teach"].filter((ms) => scratch[`${m.mod}:${ms}`]).length < 5
   );
+  const courseWeeks = COURSE.courses.flatMap((c, ci) => c.weeks.map((w, wi) => ({ ci, wi, t: w.t })));
+  const nextCourse = courseWeeks.find((w) => SQUARES.some((sq) => !course[`${w.ci}-${w.wi}:${sq.key}`]));
   const todayKey = dayKey(today);
   const deliverKey = `${wk}:deliverable`;
 
@@ -123,6 +126,12 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, jumpT
       <section className={styles.card}>
         <h2 className={styles.h2}>Up next</h2>
         <div className={styles.next}>
+          {nextCourse ? (
+            <button className={styles.nextCard} onClick={() => jumpTo("course", null)}>
+              <span className={styles.nl}>Andrew Ng · Course {nextCourse.ci + 1}, Week {nextCourse.wi + 1}</span>
+              <span className={styles.nt}>{nextCourse.t}</span>
+            </button>
+          ) : <div className={styles.nextCard}><span className={styles.nt}>Course complete</span></div>}
           {nextPattern ? (
             <button className={styles.nextCard} onClick={() => jumpTo("patterns", nextPattern.id)}>
               <span className={styles.nl}>Next pattern · {nextPattern.num}</span>

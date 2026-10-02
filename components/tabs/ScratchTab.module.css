@@ -47,3 +47,7 @@
 @media (max-width: 900px) {
   .title { font-size: 1.7rem; }
 }
+
+.pn { display: flex; justify-content: space-between; gap: 12px; margin-top: 34px; }
+.pn button { background: transparent; border: 1px solid var(--border); color: var(--text2); border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; cursor: pointer; max-width: 48%; text-align: left; transition: all 0.15s; }
+.pn button:hover { border-color: var(--text2); color: var(--text); background: var(--glass); }

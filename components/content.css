@@ -41,3 +41,11 @@
 .mc-content th { background: var(--th-bg); padding: 9px 14px; text-align: left; font-weight: 600; font-size: 0.76rem; color: var(--text2); border-bottom: 1px solid var(--border); font-family: var(--font-mono); white-space: nowrap; }
 .mc-content td { padding: 9px 14px; font-size: 0.82rem; border-bottom: 1px solid var(--border); color: var(--text2); }
 .mc-content tr:last-child td { border-bottom: none; }
+
+.mc-content .code-block { position: relative; }
+.mc-content .code-block::after { content: "copy"; position: absolute; top: 8px; right: 10px; font-family: var(--font-mono); font-size: 0.62rem; color: var(--text3); border: 1px solid var(--border); border-radius: 4px; padding: 1px 7px; background: var(--code-bg); opacity: 0.75; cursor: pointer; }
+.mc-content .code-block:hover::after { opacity: 1; color: var(--text2); }
+.mc-content .code-block[data-copied]::after { content: "copied ✓"; color: var(--green); border-color: rgba(126, 198, 153, 0.5); }
+.mc-content h2 { padding-top: 6px; }
+.mc-content .callout { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12); }
+.mc-content li::marker { color: var(--text3); }

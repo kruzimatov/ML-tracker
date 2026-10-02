@@ -36,7 +36,7 @@ export default function RoadmapTab({ state, setState, jumpTo }) {
   const done = Object.values(state).filter(Boolean).length;
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} mc-fade`}>
       <div className={styles.masthead}>
         <div className={styles.kicker}>Execution tracker · Oct → Jan</div>
         <h1 className={styles.title}>Thirteen Weeks</h1>

@@ -4,12 +4,23 @@ import { useEffect, useState } from "react";
 import "../content.css";
 import DocShell from "./DocShell";
 import { CHAPTERS } from "./patternsData";
+import { EXTRAS } from "./patternsExtras";
+import Extras from "./Extras";
+import Html from "./Html";
 import styles from "./PatternsTab.module.css";
 
 const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 const TRACKS = {
   dsa: { label: "DSA Patterns", color: "var(--accent)", end: (n) => `End of DSA track · ${n} / ${n} patterns` },
   sd: { label: "System Design", color: "var(--teal)", end: (n) => `End of System Design track · ${n} / ${n} topics` },
+};
+const subsOf = (c) => {
+  const x = EXTRAS[c.id] || {};
+  return [
+    ...c.subs,
+    ...(x.example ? [{ id: `${c.id}-example`, title: "Worked example" }] : []),
+    ...(x.followups ? [{ id: `${c.id}-followups`, title: "Interview follow-ups" }] : []),
+  ];
 };
 const trackCount = (t) => CHAPTERS.filter((c) => c.track === t).length;
 
@@ -52,7 +63,7 @@ export default function PatternsTab({ state, setState }) {
           </div>
           {open && (
             <div className={styles.subs}>
-              {c.subs.map((s) => (
+              {subsOf(c).map((s) => (
                 <button key={s.id} className={styles.sub} onClick={() => scrollTo(s.id)}>{s.title}</button>
               ))}
             </div>
@@ -97,7 +108,12 @@ export default function PatternsTab({ state, setState }) {
           <section key={c.id} id={c.id} className={styles.chapter}>
             <div className={styles.eyebrow} style={{ color: TRACKS[c.track].color }}>{c.eyebrow}</div>
             <h1 className={styles.chTitle}>{c.title}</h1>
-            <div className="mc-content" data-variant="patterns" dangerouslySetInnerHTML={{ __html: c.body }} />
+            <Html html={c.body} variant="patterns" />
+            <Extras id={c.id} variant="patterns" {...EXTRAS[c.id]} />
+            <div className={styles.pn}>
+              {i > 0 ? <button onClick={() => scrollTo(CHAPTERS[i - 1].id)}>← {CHAPTERS[i - 1].title}</button> : <span />}
+              {i < CHAPTERS.length - 1 ? <button onClick={() => scrollTo(CHAPTERS[i + 1].id)}>{CHAPTERS[i + 1].title} →</button> : <span />}
+            </div>
             {last && <div className={styles.trackEnd}>{TRACKS[c.track].end(trackCount(c.track))}</div>}
           </section>
         );

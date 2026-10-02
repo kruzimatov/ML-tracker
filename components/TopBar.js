@@ -14,6 +14,7 @@ export default function TopBar({ tabs, active, onSelect, done, total }) {
             onClick={() => onSelect(t.id)}
           >
             {t.label}
+            {t.badge && <span className={styles.badge}>{t.badge}</span>}
           </button>
         ))}
       </nav>

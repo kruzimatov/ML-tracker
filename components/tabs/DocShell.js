@@ -17,7 +17,7 @@ export default function DocShell({ title, sub, onReset, progress, search, footer
   }, []);
 
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} mc-fade`}>
       <div ref={barRef} className={styles.bar} style={{ background: barColor }} />
       <button className={styles.toggle} onClick={() => setOpen((o) => !o)} aria-label="Toggle sidebar">☰</button>
       <nav className={`${styles.sidebar} ${open ? styles.open : ""}`} onClick={() => setOpen(false)}>

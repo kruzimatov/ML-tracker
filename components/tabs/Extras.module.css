@@ -1,0 +1,5 @@
+.deeper { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; padding-top: 14px; border-top: 1px dashed var(--border); }
+.label { font-family: var(--font-mono); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-right: 4px; }
+.chip { font-family: var(--font-mono); font-size: 0.68rem; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--border); text-decoration: none; color: var(--text2); }
+.chip:hover { border-color: var(--text2); color: var(--text); }
+.note { font-size: 0.78rem; color: var(--text3); }
