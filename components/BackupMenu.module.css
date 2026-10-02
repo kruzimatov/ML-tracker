@@ -1,0 +1,16 @@
+.root { position: relative; flex-shrink: 0; }
+.btn { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+.btn:hover { color: var(--text); border-color: var(--text2); }
+.pop { position: fixed; top: calc(var(--tb-h) + 6px); right: 12px; width: 280px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; z-index: 6000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+.h { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; margin-bottom: 6px; }
+.p { font-size: 0.8rem; color: var(--text2); margin-bottom: 10px; line-height: 1.5; }
+.act { display: block; width: 100%; text-align: left; background: var(--glass); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 8px 11px; font-size: 0.82rem; cursor: pointer; margin-bottom: 7px; }
+.act:hover { border-color: var(--text2); }
+.confirm { border: 1px solid rgba(232, 105, 95, 0.4); background: var(--red-dim); border-radius: 8px; padding: 10px 12px; margin-top: 4px; font-size: 0.78rem; color: var(--text2); }
+.confirm p { margin-bottom: 8px; }
+.confirm b { color: var(--text); }
+.row { display: flex; gap: 8px; }
+.danger { background: var(--red); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer; }
+.ghost { background: transparent; border: 1px solid var(--border); color: var(--text2); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer; }
+.msg { font-size: 0.78rem; color: var(--teal); margin-top: 6px; }
+.last { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); margin-top: 10px; }
