@@ -62,7 +62,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   const courseWeeks = COURSE.courses.flatMap((c, ci) => c.weeks.map((w, wi) => ({ ci, wi, t: w.t })));
   const nextCourse = courseWeeks.find((w) => SQUARES.some((sq) => !course[`${w.ci}-${w.wi}:${sq.key}`]));
   const iso = todayISO();
-  const due = dueReviews(patterns, review, iso);
+  const due = dueReviews(patterns, scratch, review, iso);
   const weekReviewDay = started && !over && today % 7 >= 5;
   const todayKey = dayKey(today);
   const deliverKey = `${wk}:deliverable`;

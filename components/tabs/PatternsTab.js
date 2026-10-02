@@ -44,16 +44,17 @@ export default function PatternsTab({ state, setState, setReview }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggle = (id) => {
-    const now = !state[id];
-    setState((s) => ({ ...s, [id]: now }));
-    setReview((r) => {
-      const next = { ...r };
-      if (now) next[id] = { last: todayISO(), stage: 0 };
-      else delete next[id];
-      return next;
+  const toggle = (id) =>
+    setState((s) => {
+      const now = !s[id];
+      setReview((r) => {
+        const next = { ...r };
+        if (now) next[id] = { last: todayISO(), stage: 0 };
+        else delete next[id];
+        return next;
+      });
+      return { ...s, [id]: now };
     });
-  };
   const doneOf = (t) => CHAPTERS.filter((c) => c.track === t && state[c.id]).length;
   const q = query.trim().toLowerCase();
 

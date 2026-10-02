@@ -77,7 +77,7 @@ export default function MissionControl() {
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
-      {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} />}
+      {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
     </>
   );

@@ -7,6 +7,7 @@
 .revTitle { flex: 1; text-align: left; background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); cursor: pointer; font-size: 0.9rem; display: flex; flex-direction: column; gap: 2px; }
 .revTitle:hover { border-color: var(--text2); }
 .revTitle b { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); font-weight: 500; margin-right: 6px; }
+.revTitle em { font-style: normal; font-size: 0.78rem; color: var(--text2); }
 .revTitle span { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); }
 .ok, .rusty { border-radius: 8px; padding: 0 14px; font-size: 0.8rem; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); }
 .ok:hover { border-color: rgba(126, 198, 153, 0.6); color: var(--green); background: var(--green-dim); }

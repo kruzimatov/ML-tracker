@@ -1,6 +1,7 @@
 "use client";
 
 import "../content.css";
+import { todayISO } from "@/lib/dates";
 import DocShell from "./DocShell";
 import { MODULES } from "./scratchData";
 import { EXAMPLES } from "./scratchExtras";
@@ -16,9 +17,23 @@ const TRACK_NAME = { a: "Math & Classic ML", b: "FastAPI + RAG" };
 const aMods = MODULES.filter((m) => m.track === "a");
 const bMods = MODULES.filter((m) => m.track === "b");
 
-export default function ScratchTab({ state, setState }) {
+export default function ScratchTab({ state, setState, setReview }) {
   const key = (mod, ms) => `${mod}:${ms}`;
-  const toggle = (mod, ms) => setState((s) => ({ ...s, [key(mod, ms)]: !s[key(mod, ms)] }));
+  const toggle = (mod, ms) =>
+    setState((s) => {
+      const next = { ...s, [key(mod, ms)]: !s[key(mod, ms)] };
+      const m = MODULES.find((x) => x.mod === mod);
+      if (m.track === "a") {
+        const all = MILESTONES.every((x) => next[key(mod, x)]);
+        setReview((r) => {
+          const n = { ...r };
+          if (all) n[`mod:${m.id}`] ??= { last: todayISO(), stage: 0 };
+          else delete n[`mod:${m.id}`];
+          return n;
+        });
+      }
+      return next;
+    });
   const modDone = (mod) => MILESTONES.filter((ms) => state[key(mod, ms)]).length;
   const trackDone = (mods) => mods.reduce((n, m) => n + modDone(m.mod), 0);
 
