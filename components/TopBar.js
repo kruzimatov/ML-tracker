@@ -1,4 +1,5 @@
 import BackupMenu from "./BackupMenu";
+import ReminderMenu from "./ReminderMenu";
 import { toggleTheme, useTheme } from "@/lib/theme";
 import styles from "./TopBar.module.css";
 
@@ -22,6 +23,7 @@ export default function TopBar({ tabs, active, onSelect, done, total }) {
       <div className={styles.agg}>
         <b>{done}</b> / {total} done
       </div>
+      <ReminderMenu />
       <BackupMenu />
       <button className={styles.theme} onClick={toggleTheme} aria-label="Toggle light/dark theme" title="Toggle theme">
         {theme === "light" ? "☾" : "☀"}

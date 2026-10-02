@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { applyBackup, downloadBackup, parseBackup } from "@/lib/backup";
 import styles from "./BackupMenu.module.css";
 
@@ -13,8 +13,15 @@ export default function BackupMenu() {
   const [last, setLast] = useState("");
   const fileRef = useRef(null);
 
+  useEffect(() => {
+    const close = (e) => e.detail !== "backup" && setOpen(false);
+    window.addEventListener("mc-menu", close);
+    return () => window.removeEventListener("mc-menu", close);
+  }, []);
+
   const toggle = () => {
     if (!open) {
+      window.dispatchEvent(new CustomEvent("mc-menu", { detail: "backup" }));
       try {
         setLast(localStorage.getItem("mc-last-export") || "");
       } catch {}

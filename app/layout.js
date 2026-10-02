@@ -19,7 +19,10 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+export const viewport = { themeColor: "#0b0f14" };
+
 export const metadata = {
+  appleWebApp: { capable: true, title: "Mission", statusBarStyle: "black" },
   title: "Mission Control",
   description:
     "Roadmap, DSA/system design patterns, math/ML/RAG build, and your study guide index — one tracker.",

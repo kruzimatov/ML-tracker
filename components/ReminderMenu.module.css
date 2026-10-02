@@ -1,0 +1,14 @@
+.root { position: relative; flex-shrink: 0; }
+.btn { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+.btn:hover { border-color: var(--text2); }
+.pop { position: fixed; top: calc(var(--tb-h) + 6px); right: 12px; width: 300px; max-height: calc(100vh - var(--tb-h) - 20px); overflow-y: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; z-index: 6000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+.h { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; margin-bottom: 8px; }
+.sec { padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text2); }
+.sec b { color: var(--text); display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.82rem; }
+.sec p { font-size: 0.76rem; color: var(--text3); line-height: 1.5; margin-top: 6px; }
+.sec p b { display: inline; font-size: inherit; }
+.act { display: block; width: 100%; text-align: left; background: var(--glass); border: 1px solid var(--border); color: var(--text); border-radius: 7px; padding: 8px 11px; font-size: 0.82rem; cursor: pointer; margin-top: 6px; }
+.act:hover { border-color: var(--text2); }
+.time { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-family: var(--font-mono); font-size: 0.85rem; }
+.check { display: flex; align-items: center; gap: 8px; color: var(--text); cursor: pointer; }
+.msg { font-size: 0.78rem; color: var(--red); margin-top: 6px; }

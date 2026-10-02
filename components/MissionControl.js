@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { COURSE_TOTAL } from "./tabs/courseData";
 import { useStored } from "@/lib/useStored";
+import PwaRegister from "./PwaRegister";
 import TopBar from "./TopBar";
 import TodayTab from "./tabs/TodayTab";
 import RoadmapTab from "./tabs/RoadmapTab";
@@ -70,6 +71,7 @@ export default function MissionControl() {
 
   return (
     <>
+      <PwaRegister />
       <TopBar tabs={tabs} active={tab} onSelect={(id) => jumpTo(id, null)} done={done} total={TOTAL} />
       {tab === "today" && (
         <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
