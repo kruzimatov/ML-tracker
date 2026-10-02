@@ -1,0 +1,46 @@
+.wrap { max-width: 860px; margin: 0 auto; padding: calc(var(--tb-h) + 50px) 24px 100px; font-size: 15.5px; line-height: 1.7; }
+.kicker { font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+.title { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; margin: 0 0 4px; text-wrap: balance; }
+.sub { color: var(--text2); margin-bottom: 26px; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.tile { border: 1px solid var(--border); background: var(--glass); border-radius: 10px; padding: 14px 16px; font-family: var(--font-mono); }
+.n { font-size: 1.8rem; font-weight: 600; color: var(--text); display: block; line-height: 1.2; }
+.n small { font-size: 0.9rem; color: var(--text3); font-weight: 400; }
+.l { font-size: 0.66rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.card { border: 1px solid var(--border); background: var(--glass); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; }
+.h2 { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); font-weight: 500; margin-bottom: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.big { background: var(--gold); color: #0b0f14; border: none; border-radius: 8px; padding: 12px 22px; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+.big:hover { filter: brightness(1.08); }
+.bigDone { background: var(--green-dim); color: var(--green); border: 1px solid rgba(126, 198, 153, 0.4); }
+.ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: 8px; padding: 11px 16px; font-size: 0.85rem; cursor: pointer; }
+.ghost:hover:not(:disabled) { border-color: var(--text2); color: var(--text); }
+.ghost:disabled { opacity: 0.5; cursor: default; }
+.ghostDone { border-color: rgba(79, 176, 198, 0.5); color: var(--teal); background: var(--teal-dim); }
+.how { margin: 0 0 14px 20px; color: var(--text2); font-size: 0.88rem; }
+.how li { margin-bottom: 4px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--font-mono); font-size: 0.68rem; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--border); text-decoration: none; color: var(--text2); background: transparent; cursor: pointer; }
+.chip:hover { border-color: var(--text2); color: var(--text); }
+.chipInt { color: var(--teal); border-color: rgba(79, 176, 198, 0.35); }
+.heat { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.col { display: flex; flex-direction: column; gap: 4px; }
+.cell { width: 22px; height: 22px; border-radius: 5px; display: inline-block; flex-shrink: 0; }
+.hDone { background: var(--gold); }
+.hMissed { background: var(--red-dim); border: 1px solid rgba(232, 105, 95, 0.25); }
+.hToday { border: 2px solid var(--teal); background: transparent; }
+.hFuture { background: var(--glass); border: 1px solid var(--border); }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend .cell { width: 11px; height: 11px; border-radius: 3px; }
+.next { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nextCard { text-align: left; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: transparent; cursor: pointer; display: flex; flex-direction: column; gap: 4px; color: inherit; }
+button.nextCard:hover { border-color: var(--text2); }
+.nl { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.nt { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: var(--text); }
+@media (max-width: 640px) {
+  .title { font-size: 1.9rem; }
+  .tiles { grid-template-columns: 1fr 1fr; }
+  .next { grid-template-columns: 1fr; }
+  .cell { width: 18px; height: 18px; }
+}

@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useStored } from "@/lib/useStored";
 import TopBar from "./TopBar";
+import TodayTab from "./tabs/TodayTab";
 import RoadmapTab from "./tabs/RoadmapTab";
 import PatternsTab from "./tabs/PatternsTab";
 import ScratchTab from "./tabs/ScratchTab";
 import LedgerTab from "./tabs/LedgerTab";
 
 const TABS = [
+  { id: "today", label: "Today" },
   { id: "roadmap", label: "Roadmap" },
   { id: "patterns", label: "Patterns" },
   { id: "scratch", label: "From Scratch" },
@@ -21,7 +23,7 @@ const scrollToEl = (id) => document.getElementById(id)?.scrollIntoView({ block: 
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
 
 export default function MissionControl() {
-  const [tab, setTab] = useState("roadmap");
+  const [tab, setTab] = useState("today");
   const pendingRef = useRef(null);
 
   const [patterns, setPatterns] = useStored("mc-patterns");
@@ -54,6 +56,9 @@ export default function MissionControl() {
   return (
     <>
       <TopBar tabs={TABS} active={tab} onSelect={(id) => jumpTo(id, null)} done={done} total={TOTAL} />
+      {tab === "today" && (
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} jumpTo={jumpTo} />
+      )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} />}
