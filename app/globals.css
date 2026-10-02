@@ -23,10 +23,29 @@
   --code-bg: #0e1319;
   --code-text: #c7d0da;
   --sidebar-bg: #0e1319;
+  --topbar-bg: #0e1319;
+  --hover: rgba(255, 255, 255, 0.04);
+  --inline-code: rgba(255, 255, 255, 0.06);
+  --th-bg: rgba(255, 255, 255, 0.03);
   --tb-h: 48px;
   --font-serif: var(--font-newsreader), Georgia, serif;
   --font-sans: var(--font-plex-sans), system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), "SF Mono", monospace;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f8fa; --bg2: #eceff3; --bg3: #dfe4ea;
+  --accent: #d1600c; --accent-dim: rgba(209, 96, 12, 0.1);
+  --gold: #a47608; --gold-dim: rgba(164, 118, 8, 0.12);
+  --teal: #1b7c93; --teal-dim: rgba(27, 124, 147, 0.1);
+  --red: #c4443a; --red-dim: rgba(196, 68, 58, 0.09);
+  --green: #2c8753; --green-dim: rgba(44, 135, 83, 0.1);
+  --text: #141a22; --text2: #46505e; --text3: #7b8594;
+  --border: rgba(0, 0, 0, 0.12); --glass: rgba(0, 0, 0, 0.03);
+  --code-bg: #edf0f4; --code-text: #273140;
+  --sidebar-bg: #eef1f5; --topbar-bg: #ffffff;
+  --hover: rgba(0, 0, 0, 0.05); --inline-code: rgba(0, 0, 0, 0.06); --th-bg: rgba(0, 0, 0, 0.04);
 }
 
 html, body {

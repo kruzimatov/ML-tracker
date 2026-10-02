@@ -5,7 +5,7 @@
   right: 0;
   height: var(--tb-h);
   z-index: 5000;
-  background: #0e1319;
+  background: var(--topbar-bg);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -53,3 +53,6 @@
   .brand { display: none; }
   .tab { padding: 6px 9px; font-size: 0.72rem; }
 }
+
+.theme { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; flex-shrink: 0; font-size: 0.9rem; }
+.theme:hover { color: var(--text); border-color: var(--text2); }

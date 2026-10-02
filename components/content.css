@@ -19,7 +19,7 @@
 .mc-content li a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
 .mc-content li a:hover { border-color: var(--accent); color: var(--accent); }
 .mc-content li .tag { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text3); margin-left: 6px; }
-.mc-content code { font-family: var(--font-mono); font-size: 0.88em; color: var(--text); background: rgba(255, 255, 255, 0.06); padding: 1px 5px; border-radius: 4px; }
+.mc-content code { font-family: var(--font-mono); font-size: 0.88em; color: var(--text); background: var(--inline-code); padding: 1px 5px; border-radius: 4px; }
 
 .mc-content .callout { border-radius: 8px; padding: 14px 18px; margin: 14px 0; border: 1px solid var(--border); background: var(--glass); }
 .mc-content .callout p:last-child { margin-bottom: 0; }
@@ -34,10 +34,10 @@
 .mc-content .analogy .callout-title { color: var(--gold); }
 
 .mc-content .code-block { background: var(--code-bg); border: 1px solid var(--border); color: var(--code-text); font-family: var(--font-mono); padding: 16px 18px; border-radius: 8px; overflow-x: auto; font-size: 0.8rem; line-height: 1.65; margin: 14px 0; white-space: pre; }
-.mc-content .code-block .cm { color: #5c6773; }
+.mc-content .code-block .cm { color: var(--text3); }
 .mc-content .math { background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--gold); font-family: var(--font-mono); padding: 12px 16px; border-radius: 6px; margin: 14px 0; font-size: 0.86rem; color: var(--text); overflow-x: auto; }
 
 .mc-content table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0; background: var(--glass); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: block; overflow-x: auto; }
-.mc-content th { background: rgba(255, 255, 255, 0.03); padding: 9px 14px; text-align: left; font-weight: 600; font-size: 0.76rem; color: var(--text2); border-bottom: 1px solid var(--border); font-family: var(--font-mono); white-space: nowrap; }
+.mc-content th { background: var(--th-bg); padding: 9px 14px; text-align: left; font-weight: 600; font-size: 0.76rem; color: var(--text2); border-bottom: 1px solid var(--border); font-family: var(--font-mono); white-space: nowrap; }
 .mc-content td { padding: 9px 14px; font-size: 0.82rem; border-bottom: 1px solid var(--border); color: var(--text2); }
 .mc-content tr:last-child td { border-bottom: none; }

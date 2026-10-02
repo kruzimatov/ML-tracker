@@ -1,6 +1,6 @@
 .divider { padding: 14px 20px 6px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
 .link { display: flex; align-items: center; gap: 8px; width: 100%; padding: 6px 20px; font-size: 0.8rem; color: var(--text2); background: none; border: none; border-left: 2px solid transparent; text-align: left; cursor: pointer; }
-.link:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); }
+.link:hover { background: var(--hover); color: var(--text); }
 .num { font-family: var(--font-mono); font-size: 0.68rem; width: 24px; flex-shrink: 0; }
 .numA { color: var(--gold); }
 .numB { color: var(--teal); }
