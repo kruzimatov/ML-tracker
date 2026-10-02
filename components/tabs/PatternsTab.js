@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "../content.css";
+import { todayISO } from "@/lib/dates";
 import DocShell from "./DocShell";
 import { CHAPTERS } from "./patternsData";
 import { EXTRAS } from "./patternsExtras";
@@ -24,7 +25,7 @@ const subsOf = (c) => {
 };
 const trackCount = (t) => CHAPTERS.filter((c) => c.track === t).length;
 
-export default function PatternsTab({ state, setState }) {
+export default function PatternsTab({ state, setState, setReview }) {
   const [query, setQuery] = useState("");
   const [expanded, setExpanded] = useState({});
   const [active, setActive] = useState(CHAPTERS[0].id);
@@ -43,7 +44,16 @@ export default function PatternsTab({ state, setState }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggle = (id) => setState((s) => ({ ...s, [id]: !s[id] }));
+  const toggle = (id) => {
+    const now = !state[id];
+    setState((s) => ({ ...s, [id]: now }));
+    setReview((r) => {
+      const next = { ...r };
+      if (now) next[id] = { last: todayISO(), stage: 0 };
+      else delete next[id];
+      return next;
+    });
+  };
   const doneOf = (t) => CHAPTERS.filter((c) => c.track === t && state[c.id]).length;
   const q = query.trim().toLowerCase();
 

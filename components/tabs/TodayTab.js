@@ -5,6 +5,8 @@ import { PLAN_START, WEEKS } from "./roadmapData";
 import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
 import { COURSE, SQUARES } from "./courseData";
+import { todayISO } from "@/lib/dates";
+import { NoteCard, PastNotes, ReviewCard, dueReviews } from "./TodayExtras";
 import styles from "./TodayTab.module.css";
 
 const NOT_READY = -1000000;
@@ -19,7 +21,7 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, notes, setNotes, review, setReview, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -59,6 +61,9 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   );
   const courseWeeks = COURSE.courses.flatMap((c, ci) => c.weeks.map((w, wi) => ({ ci, wi, t: w.t })));
   const nextCourse = courseWeeks.find((w) => SQUARES.some((sq) => !course[`${w.ci}-${w.wi}:${sq.key}`]));
+  const iso = todayISO();
+  const due = dueReviews(patterns, review, iso);
+  const weekReviewDay = started && !over && today % 7 >= 5;
   const todayKey = dayKey(today);
   const deliverKey = `${wk}:deliverable`;
 
@@ -100,6 +105,12 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
             <button className={`${styles.chip} ${styles.chipInt}`} onClick={() => jumpTo("roadmap", `week-${wk}`)}>Full week →</button>
           </div>
         </section>
+      )}
+
+      <ReviewCard due={due} setReview={setReview} jumpTo={jumpTo} />
+      <NoteCard id={iso} title="Today's note" prompt="What did I learn today? What is stuck? What will I do first tomorrow?" notes={notes} setNotes={setNotes} />
+      {weekReviewDay && (
+        <NoteCard id={`w${wk + 1}`} title={`Week ${wk + 1} review`} prompt="Did I ship the deliverable? What slowed me down? What changes next week? (Do not restart. Continue.)" notes={notes} setNotes={setNotes} />
       )}
 
       <section className={styles.card}>
@@ -146,6 +157,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
           ) : <div className={styles.nextCard}><span className={styles.nt}>All modules done</span></div>}
         </div>
       </section>
+      <PastNotes notes={notes} skip={iso} />
     </div>
   );
 }

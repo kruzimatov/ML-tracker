@@ -1,0 +1,22 @@
+.card { border: 1px solid var(--border); background: var(--glass); border-radius: 12px; padding: 20px 22px; margin-bottom: 14px; }
+.h2 { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); font-weight: 500; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.count { background: var(--accent-dim); color: var(--accent); border-radius: 10px; padding: 0 8px; font-size: 0.7rem; }
+.empty, .hint, .more { font-size: 0.84rem; color: var(--text3); margin-bottom: 10px; }
+.hint { color: var(--text2); }
+.rev { display: flex; gap: 8px; align-items: stretch; margin-bottom: 8px; }
+.revTitle { flex: 1; text-align: left; background: transparent; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text); cursor: pointer; font-size: 0.9rem; display: flex; flex-direction: column; gap: 2px; }
+.revTitle:hover { border-color: var(--text2); }
+.revTitle b { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); font-weight: 500; margin-right: 6px; }
+.revTitle span { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); }
+.ok, .rusty { border-radius: 8px; padding: 0 14px; font-size: 0.8rem; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text2); }
+.ok:hover { border-color: rgba(126, 198, 153, 0.6); color: var(--green); background: var(--green-dim); }
+.rusty:hover { border-color: rgba(232, 105, 95, 0.6); color: var(--red); background: var(--red-dim); }
+.ta { width: 100%; resize: vertical; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: var(--font-sans); font-size: 0.92rem; line-height: 1.6; }
+.ta::placeholder { color: var(--text3); }
+.ta:focus { border-color: var(--teal); outline: none; }
+.saved { font-family: var(--font-mono); font-size: 0.64rem; color: var(--text3); margin-top: 6px; }
+.past { padding: 10px 0; border-top: 1px dashed var(--border); }
+.past:first-of-type { border-top: none; padding-top: 0; }
+.pd { font-family: var(--font-mono); font-size: 0.68rem; color: var(--teal); margin-bottom: 3px; }
+.pt { font-size: 0.88rem; color: var(--text2); white-space: pre-wrap; }
+@media (max-width: 640px) { .rev { flex-wrap: wrap; } .ok, .rusty { padding: 8px 14px; } }

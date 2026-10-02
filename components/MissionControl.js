@@ -34,6 +34,8 @@ export default function MissionControl() {
   const [ledger, setLedger] = useStored("mc-ledger");
   const [roadmap, setRoadmap] = useStored("mc-roadmap");
   const [course, setCourse] = useStored("mc-course");
+  const [notes, setNotes] = useStored("mc-notes");
+  const [review, setReview] = useStored("mc-review");
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -70,11 +72,11 @@ export default function MissionControl() {
     <>
       <TopBar tabs={tabs} active={tab} onSelect={(id) => jumpTo(id, null)} done={done} total={TOTAL} />
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
-      {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} />}
+      {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
     </>
