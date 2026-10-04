@@ -35,6 +35,7 @@ export default function PwaRegister() {
     if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
       navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
+    navigator.storage?.persist?.().catch(() => {});
     checkReminder();
     const id = setInterval(checkReminder, 30000);
     const onVis = () => document.visibilityState === "visible" && checkReminder();

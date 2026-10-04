@@ -5,7 +5,8 @@ import { PLAN_START, WEEKS } from "./roadmapData";
 import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
 import { COURSE, SQUARES } from "./courseData";
-import { todayISO } from "@/lib/dates";
+import { toISO, todayISO } from "@/lib/dates";
+import BackupNudge from "./BackupNudge";
 import { NoteCard, PastNotes, ReviewCard, dueReviews } from "./TodayExtras";
 import PageHead from "../ui/PageHead";
 import styles from "./TodayTab.module.css";
@@ -22,7 +23,7 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, hours, setHours, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -65,6 +66,17 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   const iso = todayISO();
   const due = dueReviews(patterns, scratch, pro, review, iso);
   const weekReviewDay = started && !over && today % 7 >= 5;
+  const hoursToday = hours[iso];
+  const weekHours = Array.from({ length: 7 }).reduce((n, _, d) => n + (hours[toISO(dateOf(wk * 7 + d))] || 0), 0);
+  const allHours = Object.values(hours).reduce((n, x) => n + x, 0);
+  const setTodayHours = (raw) =>
+    setHours((h) => {
+      const next = { ...h };
+      const v = parseFloat(raw);
+      if (Number.isFinite(v) && v >= 0) next[iso] = Math.min(16, Math.round(v * 4) / 4);
+      else delete next[iso];
+      return next;
+    });
   const todayKey = dayKey(today);
   const deliverKey = `${wk}:deliverable`;
 
@@ -80,7 +92,10 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
         <div className={styles.tile}><span className={styles.n}>{best}</span><span className={styles.l}>best streak</span></div>
         <div className={styles.tile}><span className={styles.n}>{doneDays}<small>/{elapsed}</small></span><span className={styles.l}>days checked in</span></div>
         <div className={styles.tile}><span className={styles.n}>{jobsThisWeek}<small>/5</small></span><span className={styles.l}>jobs this week · {jobsTotal} total</span></div>
+        <div className={styles.tile}><span className={styles.n}>{weekHours}<small>h</small></span><span className={styles.l}>hours this week · {allHours}h total</span></div>
       </div>
+
+      <BackupNudge hasProgress={totalDone > 0} />
 
       {started && (
         <section className={styles.card}>
@@ -92,6 +107,10 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
             <button className={styles.ghost} onClick={logJob} disabled={jobsThisWeek >= 5}>
               {jobsThisWeek >= 5 ? "5/5 applications this week" : "+ Log a job application"}
             </button>
+            <label className={styles.hours}>
+              <span>Hours worked today</span>
+              <input type="number" min="0" max="16" step="0.25" inputMode="decimal" value={hoursToday ?? ""} onChange={(e) => setTodayHours(e.target.value)} placeholder="0" />
+            </label>
             <button className={`${styles.ghost} ${roadmap[deliverKey] ? styles.ghostDone : ""}`} onClick={() => toggle(deliverKey)}>
               {roadmap[deliverKey] ? "✓ " : ""}Deliverable: {week.deliverable}
             </button>

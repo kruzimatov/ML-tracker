@@ -64,6 +64,7 @@ export default function MissionControl() {
   const [pro, setPro] = useStored("mc-pro");
   const [notes, setNotes] = useStored("mc-notes");
   const [review, setReview] = useStored("mc-review");
+  const [hours, setHours] = useStored("mc-hours");
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -106,7 +107,7 @@ export default function MissionControl() {
       <PwaRegister />
       <TopBar groups={groups} activeGroup={activeGroup} activeTab={tab} onGroup={selectGroup} onTab={(id) => jumpTo(id, null)} done={done} total={total} />
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} hours={hours} setHours={setHours} totalDone={done} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} setReview={setReview} jumpTo={jumpTo} />}

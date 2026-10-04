@@ -1,6 +1,6 @@
 .wrap { max-width: 860px; margin: 0 auto; padding: calc(var(--tb-h) + 50px) 24px 100px; font-size: 15.5px; line-height: 1.7; }
 .sub { color: var(--text2); margin-bottom: 26px; }
-.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .tile { border: 1px solid var(--border); background: var(--glass); border-radius: 10px; padding: 14px 16px; font-family: var(--font-mono); }
 .n { font-size: 1.8rem; font-weight: 600; color: var(--text); display: block; line-height: 1.2; }
 .n small { font-size: 0.9rem; color: var(--text3); font-weight: 400; }
@@ -42,3 +42,7 @@ button.nextCard:hover { border-color: var(--text2); }
   .next { grid-template-columns: 1fr; }
   .cell { width: 18px; height: 18px; }
 }
+
+.hours { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; color: var(--text2); }
+.hours input { width: 64px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; font-family: var(--font-mono); font-size: 0.9rem; }
+.hours input:focus { border-color: var(--teal); outline: none; }
