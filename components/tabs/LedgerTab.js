@@ -1,58 +1,9 @@
 "use client";
 
+import { SECTIONS } from "./ledgerData";
+import ConfirmReset from "../ui/ConfirmReset";
+import PageHead from "../ui/PageHead";
 import styles from "./LedgerTab.module.css";
-
-const SECTIONS = [
-  {
-    key: "classic",
-    id: "sec-classic",
-    title: "Classical ML & Deep Learning",
-    source: "ML_GUIDE.html · also in AI_ENGINEERING.html (EN + UZ)",
-    accent: "gold",
-    items: [
-      "ML Foundations", "Preparing Data", "Math Foundations", "Linear Regression",
-      "Normal Equation vs Gradient Descent", "Logistic Regression", "Regularization",
-      "K-Nearest Neighbors (KNN)", "Naive Bayes", "Support Vector Machines (SVM)",
-      "Decision Trees (CART)", "Bagging & Random Forest", "Boosting (XGBoost/LightGBM/CatBoost)",
-      "Model Evaluation & Metrics", "Hyperparameter Tuning", "Unsupervised Learning (PCA & Clustering)",
-      "Neural Networks & Deep Learning", "Feature Engineering & Selection", "Linear Discriminant Analysis (LDA)",
-      "SHAP — Model Explainability", "Stacking & Blending", "End-to-End Project + ML Checklist",
-      "Model Deployment (Gradio & joblib)", "Training Deep Neural Networks", "TensorFlow & Keras",
-      "PyTorch (vs TensorFlow)", "CNNs — Computer Vision", "RNNs, LSTMs & Transformers",
-      "Generative Models & LLMs", "Confusion-Busters", "Interview Appendix", "Quick-Reference Cheat Sheet",
-    ].map((t, i) => [String(i + 1), t]),
-  },
-  {
-    key: "ragtheory",
-    id: "sec-ragtheory",
-    title: "RAG Theory",
-    source: "AI_ENGINEERING.html · Uzbek",
-    accent: "gold",
-    items: [
-      "Muammo va Yechim", "RAG Turlari", "Embedding Chuqur", "Chunking Strategiyalari",
-      "Ma'lumot Yig'ish (Data Ingestion)", "Vector Database", "Retrieval (Qidirish)",
-      "Reranking (Qayta Tartiblash)", "Generation (Javob Yaratish)", "RAG Evaluation — RAGAS",
-      "Production Patterns", "Hands-On Project — RAG Chatbot", "LangGraph — State Machine RAG",
-      "Advanced RAG Patterns", "Qo'shimcha Mavzular",
-    ].map((t, i) => [String(i + 1), t]),
-  },
-  {
-    key: "ragbuild",
-    id: "sec-ragbuild",
-    title: "RAG Hands-On Build",
-    source: "AI_ENGINEERING.html · Uzbek · file-by-file RAG chatbot (PostgreSQL + pgvector)",
-    accent: "teal",
-    items: [
-      ["0", "Tayyorgarlik: PostgreSQL va pgvector"], ["1", "Papka tuzilishi"], ["2", "config.py — sozlamalar"],
-      ["3", "database.py — bazaga ulanish"], ["4", "tables.py — jadvallar"], ["5", "bootstrap.py — birinchi g'alaba"],
-      ["6", "SQL fayllar — bazani qo'lda qurish"], ["7", "Ma'lumot yig'ish: PDF va sayt"], ["8", "chunker.py — matnni bo'laklash"],
-      ["9", "embedder.py — matndan vektorga"], ["10", "LOCAL va CLOUD rejimlar"], ["11", "search.py — vektor qidiruv"],
-      ["12", "reranker.py — qayta tartiblash"], ["13", "generator.py — javob yozish"], ["15", "main.py va routes"],
-      ["16", "Admin panel"], ["17", "Shablonlar tuzilishi — base.html"], ["18", "templates — foydalanuvchi interfeysi"],
-      ["19", "Suhbat tarixi"], ["20", "Baholash — taxmin qilmang, o'lchang"], ["21", "run.py va yakun"],
-    ],
-  },
-];
 
 export default function LedgerTab({ state, setState }) {
   const toggle = (k) => setState((s) => ({ ...s, [k]: !s[k] }));
@@ -60,8 +11,7 @@ export default function LedgerTab({ state, setState }) {
   return (
     <div className={`${styles.wrap} mc-fade`}>
       <div className={styles.masthead}>
-        <div className={styles.kicker}>Index · not a replacement</div>
-        <h1 className={styles.title}>The Ledger</h1>
+        <PageHead kicker={<>Index · not a replacement</>} title={<>The Ledger</>} color="var(--gold)" />
         <p className={styles.lede}>
           A tracking layer over two guides that already exist and already have the depth — worked numeric traces,
           from-scratch derivations, interview questions, a full hands-on build. This page adds nothing to their
@@ -75,7 +25,7 @@ export default function LedgerTab({ state, setState }) {
           This page can&apos;t open local files for you — open them yourself in your editor or browser. Checking a
           square here only tracks progress; it doesn&apos;t jump into the file.
         </p>
-        <div className={styles.controls}><button onClick={() => setState({})}>Reset all</button></div>
+        <div className={styles.controls}><ConfirmReset onConfirm={() => setState({})} label="Reset all" /></div>
       </div>
 
       {SECTIONS.map((sec) => {

@@ -1,63 +1,29 @@
-.bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--tb-h);
-  z-index: 5000;
-  background: color-mix(in srgb, var(--topbar-bg) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  padding: 0 14px;
-  gap: 16px;
-  overflow-x: auto;
-}
-.brand {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--text);
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.tabs { display: flex; gap: 4px; flex-shrink: 0; }
-.tab {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text3);
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.78rem;
-  font-family: var(--font-mono);
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-.tab:hover { color: var(--text2); background: var(--glass); }
-.active { color: var(--text); background: var(--glass); border-color: var(--border); }
-.agg {
-  margin-left: auto;
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  color: var(--text3);
-  white-space: nowrap;
-  padding: 4px 10px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
+.bar { position: fixed; top: 0; left: 0; right: 0; height: var(--tb-h); z-index: 5000; background: color-mix(in srgb, var(--topbar-bg) 90%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; }
+.row1, .row2 { display: flex; align-items: center; gap: 14px; padding: 0 14px; min-width: 0; }
+.row1 { height: 48px; }
+.row2 { height: 34px; border-top: 1px solid var(--border); }
+.brand { font-family: var(--font-serif); font-weight: 600; font-size: 1rem; color: var(--text); white-space: nowrap; flex-shrink: 0; }
+.groups { display: flex; gap: 2px; margin-left: 8px; }
+.group { background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text3); padding: 6px 12px; cursor: pointer; font-size: 0.86rem; font-weight: 500; white-space: nowrap; height: 48px; }
+.group:hover { color: var(--text); }
+.active { color: var(--text); border-bottom-color: var(--accent); }
+.tools { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.theme { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+.theme:hover { color: var(--text); border-color: var(--text2); }
+.subs { display: flex; gap: 4px; align-items: center; overflow-x: auto; scrollbar-width: none; min-width: 0; flex: 1; }
+.subs::-webkit-scrollbar { display: none; }
+.sub { background: transparent; border: 1px solid transparent; color: var(--text3); padding: 3px 10px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: var(--font-mono); white-space: nowrap; }
+.sub:hover { color: var(--text2); background: var(--glass); }
+.subActive { color: var(--text); background: var(--glass); border-color: var(--border); }
+.badge { margin-left: 7px; font-size: 0.64rem; color: var(--text3); }
+.subActive .badge { color: var(--text2); }
+.desc { font-size: 0.78rem; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agg { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); white-space: nowrap; flex-shrink: 0; }
 .agg b { color: var(--text); }
-
 @media (max-width: 640px) {
   .brand { display: none; }
-  .tab { padding: 6px 9px; font-size: 0.72rem; }
+  .groups { margin-left: 0; flex: 1; }
+  .group { padding: 6px 8px; font-size: 0.8rem; }
+  .row1, .row2 { padding: 0 10px; gap: 8px; }
+  .badge { display: none; }
 }
-
-.theme { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; flex-shrink: 0; font-size: 0.9rem; }
-.theme:hover { color: var(--text); border-color: var(--text2); }
-
-.badge { margin-left: 7px; font-size: 0.64rem; color: var(--text3); }
-.active .badge { color: var(--text2); }
-@media (max-width: 900px) { .badge { display: none; } }

@@ -7,6 +7,7 @@ import { MODULES } from "./scratchData";
 import { COURSE, SQUARES } from "./courseData";
 import { todayISO } from "@/lib/dates";
 import { NoteCard, PastNotes, ReviewCard, dueReviews } from "./TodayExtras";
+import PageHead from "../ui/PageHead";
 import styles from "./TodayTab.module.css";
 
 const NOT_READY = -1000000;
@@ -69,10 +70,9 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.kicker}>{fmt(dateOf(today), { weekday: "long", month: "long", day: "numeric" })}</div>
-      <h1 className={styles.title}>
+      <PageHead kicker={<>{fmt(dateOf(today), { weekday: "long", month: "long", day: "numeric" })}</>} title={<>
         {!started ? `Plan starts ${fmt(PLAN_START)}` : over ? "Plan complete" : `Day ${today + 1} of ${DAYS}`}
-      </h1>
+      </>} color="var(--teal)" />
       <p className={styles.sub}>Week {wk + 1} · {week.deliverable}</p>
 
       <div className={styles.tiles}>

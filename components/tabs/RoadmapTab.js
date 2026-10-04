@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useSyncExternalStore } from "react";
-import { PLAN_START, WEEKS } from "./roadmapData";
+import { PLAN_START, ROADMAP_TOTAL, WEEKS } from "./roadmapData";
+import PageHead from "../ui/PageHead";
+import ProgressRow from "../ui/ProgressRow";
 import styles from "./RoadmapTab.module.css";
 
-const TOTAL = WEEKS.length * 13;
+const TOTAL = ROADMAP_TOTAL;
 let didInitialScroll = false;
 
 const fmt = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -38,8 +40,7 @@ export default function RoadmapTab({ state, setState, jumpTo }) {
   return (
     <div className={`${styles.wrap} mc-fade`}>
       <div className={styles.masthead}>
-        <div className={styles.kicker}>Execution tracker · Oct → Jan</div>
-        <h1 className={styles.title}>Thirteen Weeks</h1>
+        <PageHead kicker={<>Execution tracker · Oct → Jan</>} title={<>Thirteen Weeks</>} color="var(--teal)" />
         <p className={styles.lede}>
           Your week-by-week plan toward a backend-plus-AI job by January. Each week: why it matters, how to actually
           do it (with real links), a daily check-in strip, job applications, and one deliverable. Topic links jump
@@ -53,9 +54,7 @@ export default function RoadmapTab({ state, setState, jumpTo }) {
           <div className={styles.stat}><span className={styles.statN}>13</span><span className={styles.statL}>weeks</span></div>
           <div className={styles.stat}><span className={styles.statN}>{TOTAL}</span><span className={styles.statL}>check-ins</span></div>
         </div>
-        <div className={styles.pbar}><div className={styles.pbarFill} style={{ width: `${(done / TOTAL) * 100}%` }} /></div>
-        <div className={styles.pbarLabel}>{done}/{TOTAL} done</div>
-        <div className={styles.controls}><button onClick={() => setState({})}>Reset all</button></div>
+        <ProgressRow done={done} total={TOTAL} color="var(--teal)" onReset={() => setState({})} />
       </div>
 
       <div className={styles.legend}>

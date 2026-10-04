@@ -1,7 +1,5 @@
 .wrap { max-width: 980px; margin: 0 auto; padding: calc(var(--tb-h) + 50px) 24px 100px; font-size: 15.5px; line-height: 1.7; }
 .masthead { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 26px; }
-.kicker { font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-.title { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 600; margin: 0 0 12px; text-wrap: balance; }
 .lede { color: var(--text2); max-width: 70ch; margin-bottom: 10px; }
 .slipNote { margin-top: 16px; padding: 12px 16px; background: var(--red-dim); border: 1px solid rgba(232, 105, 95, 0.3); border-radius: 8px; font-size: 0.82rem; color: var(--text2); }
 .slipNote b { color: var(--red); }
@@ -9,12 +7,6 @@
 .stat { font-family: var(--font-mono); }
 .statN { font-size: 1.5rem; color: var(--text); font-weight: 600; display: block; }
 .statL { font-size: 0.68rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
-.pbar { height: 5px; background: var(--bg3); border-radius: 3px; overflow: hidden; margin: 16px 0 4px; }
-.pbarFill { height: 100%; background: var(--teal); transition: width 0.3s; }
-.pbarLabel { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); }
-.controls { margin-top: 14px; }
-.controls button { background: var(--glass); border: 1px solid var(--border); color: var(--text2); padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; font-family: var(--font-mono); }
-.controls button:hover { border-color: var(--teal); color: var(--text); }
 
 .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 28px 0 14px; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text3); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }

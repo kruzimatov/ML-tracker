@@ -1,6 +1,8 @@
 "use client";
 
 import { COURSE, COURSE_TOTAL, SQUARES } from "./courseData";
+import PageHead from "../ui/PageHead";
+import ProgressRow from "../ui/ProgressRow";
 import styles from "./CourseTab.module.css";
 
 export default function CourseTab({ state, setState, jumpTo }) {
@@ -10,8 +12,7 @@ export default function CourseTab({ state, setState, jumpTo }) {
 
   return (
     <div className={`${styles.wrap} mc-fade`}>
-      <div className={styles.kicker}>Your course · Coursera</div>
-      <h1 className={styles.title}>{COURSE.title}</h1>
+      <PageHead kicker={<>Your course · Coursera</>} title={<>{COURSE.title}</>} color="var(--gold)" />
       <p className={styles.by}>{COURSE.by}</p>
       <a className={styles.open} href={COURSE.url} target="_blank" rel="noopener noreferrer">Open course on Coursera ↗</a>
 
@@ -21,11 +22,7 @@ export default function CourseTab({ state, setState, jumpTo }) {
         sklearn/TensorFlow side; the rewrite is where you learn the model.
       </div>
 
-      <div className={styles.progress}>
-        <div className={styles.bar}><div className={styles.fill} style={{ width: `${(done / COURSE_TOTAL) * 100}%` }} /></div>
-        <span>{done}/{COURSE_TOTAL}</span>
-        <button className={styles.reset} onClick={() => setState({})}>Reset</button>
-      </div>
+      <div className={styles.progWrap}><ProgressRow done={done} total={COURSE_TOTAL} color="var(--gold)" onReset={() => setState({})} /></div>
 
       {COURSE.courses.map((c, ci) => (
         <section key={ci} className={styles.course}>

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { todayISO } from "@/lib/dates";
 import { GATE, LATER_TOTAL, PHASES, SKIP } from "./laterData";
+import PageHead from "../ui/PageHead";
+import ProgressRow from "../ui/ProgressRow";
 import styles from "./LaterTab.module.css";
 
 const KIND = { must: "Core", deep: "Depth", goal: "Deliverable" };
@@ -26,8 +28,7 @@ export default function LaterTab({ state, setState, setReview, jumpTo }) {
 
   return (
     <div className={`${styles.wrap} mc-fade`}>
-      <div className={styles.kicker}>Next stage · not yet</div>
-      <h1 className={styles.title}>After January</h1>
+      <PageHead kicker={<>Next stage · not yet</>} title={<>After January</>} color="var(--accent)" />
       <p className={styles.lede}>
         What to learn once the first backend-plus-AI job or the two portfolio projects are done: five phases from honest
         evaluation to running models in production. Adapted from a roadmap you found, re-ordered for where you are now.
@@ -39,11 +40,7 @@ export default function LaterTab({ state, setState, setReview, jumpTo }) {
         <ul>{GATE.map((g) => <li key={g}>{g}</li>)}</ul>
       </div>
 
-      <div className={styles.progress}>
-        <div className={styles.bar}><div className={styles.fill} style={{ width: `${(done / LATER_TOTAL) * 100}%` }} /></div>
-        <span>{done}/{LATER_TOTAL}</span>
-        <button className={styles.reset} onClick={() => setState({})}>Reset</button>
-      </div>
+      <div className={styles.progWrap}><ProgressRow done={done} total={LATER_TOTAL} color="var(--accent)" onReset={() => setState({})} /></div>
 
       {PHASES.map((p) => (
         <section key={p.id} className={styles.phase}>

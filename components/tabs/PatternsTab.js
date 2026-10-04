@@ -8,6 +8,7 @@ import { CHAPTERS } from "./patternsData";
 import { EXTRAS } from "./patternsExtras";
 import Extras from "./Extras";
 import Html from "./Html";
+import PageHead from "../ui/PageHead";
 import styles from "./PatternsTab.module.css";
 
 const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -99,8 +100,7 @@ export default function PatternsTab({ state, setState, setReview }) {
       sidebar={sidebar}
     >
       <div className={styles.masthead}>
-        <div className={styles.kicker}>Field manual · DSA + System Design</div>
-        <h1 className={styles.title}>Pattern Manual</h1>
+        <PageHead kicker={<>Field manual · DSA + System Design</>} title={<>Pattern Manual</>} color="var(--accent)" />
         <p className={styles.lede}>
           Sixteen problem-solving patterns that cover most of LeetCode, and ten system design mechanisms that cover most
           interviews. Not a course — a reference you return to after every problem: what the pattern looks like, when it

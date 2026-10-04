@@ -6,8 +6,6 @@
 .numB { color: var(--teal); }
 
 .masthead { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 36px; }
-.kicker { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-.title { font-family: var(--font-serif); font-size: 2.3rem; font-weight: 600; margin: 0 0 12px; text-wrap: balance; }
 .lede { color: var(--text2); font-size: 1rem; max-width: 660px; }
 .lede strong { color: var(--text); }
 .statRow { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; font-family: var(--font-mono); }

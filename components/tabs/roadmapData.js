@@ -187,3 +187,5 @@ export const WEEKS = [
     jump: null,
   },
 ];
+
+export const ROADMAP_TOTAL = WEEKS.length * 13;

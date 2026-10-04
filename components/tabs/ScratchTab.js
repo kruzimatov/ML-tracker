@@ -4,12 +4,13 @@ import "../content.css";
 import { todayISO } from "@/lib/dates";
 import DocShell from "./DocShell";
 import { MODULES } from "./scratchData";
+import { MILESTONES } from "./milestones";
 import { EXAMPLES } from "./scratchExtras";
 import Extras from "./Extras";
 import Html from "./Html";
+import PageHead from "../ui/PageHead";
 import styles from "./ScratchTab.module.css";
 
-const MILESTONES = ["learn", "derive", "build", "apply", "teach"];
 const LABEL = { learn: "L", derive: "D", build: "B", apply: "A", teach: "T" };
 const scrollTo = (id, behavior = "smooth") => document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
 const rowTag = (m) => (m.track === "a" ? `M${m.mod}` : `B${m.mod - 8}`);
@@ -70,8 +71,7 @@ export default function ScratchTab({ state, setState, setReview }) {
       sidebar={sidebar}
     >
       <div className={styles.masthead}>
-        <div className={styles.kicker}>Field manual · Math, ML &amp; Backend-AI build</div>
-        <h1 className={styles.title}>From Scratch</h1>
+        <PageHead kicker={<>Field manual · Math, ML &amp; Backend-AI build</>} title={<>From Scratch</>} color="var(--gold)" />
         <p className={styles.lede}>
           Two tracks running in parallel. <strong>Math &amp; Classic ML</strong> follows your course — every model gets
           rewritten in NumPy from memory before you move on. <strong>FastAPI + RAG</strong> is the October–December

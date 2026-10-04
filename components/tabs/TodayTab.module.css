@@ -1,6 +1,4 @@
 .wrap { max-width: 860px; margin: 0 auto; padding: calc(var(--tb-h) + 50px) 24px 100px; font-size: 15.5px; line-height: 1.7; }
-.kicker { font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
-.title { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; margin: 0 0 4px; text-wrap: balance; }
 .sub { color: var(--text2); margin-bottom: 26px; }
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
 .tile { border: 1px solid var(--border); background: var(--glass); border-radius: 10px; padding: 14px 16px; font-family: var(--font-mono); }

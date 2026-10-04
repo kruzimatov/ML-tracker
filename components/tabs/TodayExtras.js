@@ -4,11 +4,10 @@ import { addDaysISO, fmtISO, todayISO } from "@/lib/dates";
 import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
 import { PHASES } from "./laterData";
+import { MILESTONES } from "./milestones";
 import styles from "./TodayExtras.module.css";
 
 export const INTERVALS = [3, 7, 21];
-
-const MILESTONES = ["learn", "derive", "build", "apply", "teach"];
 
 export function dueReviews(patterns, scratch, later, review, today) {
   const items = [

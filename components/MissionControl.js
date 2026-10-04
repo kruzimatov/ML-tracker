@@ -1,50 +1,73 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { COURSE_TOTAL } from "./tabs/courseData";
-import { LATER_TOTAL } from "./tabs/laterData";
-import LaterTab from "./tabs/LaterTab";
-import ProRoadmapTab from "./tabs/ProRoadmapTab";
-import { PRO_TOTAL } from "./tabs/proRoadmapData";
 import { useStored } from "@/lib/useStored";
 import PwaRegister from "./PwaRegister";
 import TopBar from "./TopBar";
 import TodayTab from "./tabs/TodayTab";
 import RoadmapTab from "./tabs/RoadmapTab";
+import CourseTab from "./tabs/CourseTab";
 import PatternsTab from "./tabs/PatternsTab";
 import ScratchTab from "./tabs/ScratchTab";
-import CourseTab from "./tabs/CourseTab";
 import LedgerTab from "./tabs/LedgerTab";
+import LaterTab from "./tabs/LaterTab";
+import ProRoadmapTab from "./tabs/ProRoadmapTab";
+import { CHAPTERS } from "./tabs/patternsData";
+import { MODULES } from "./tabs/scratchData";
+import { LEDGER_TOTAL } from "./tabs/ledgerData";
+import { ROADMAP_TOTAL } from "./tabs/roadmapData";
+import { COURSE_TOTAL } from "./tabs/courseData";
+import { LATER_TOTAL } from "./tabs/laterData";
+import { PRO_TOTAL } from "./tabs/proRoadmapData";
+import { MILESTONES } from "./tabs/milestones";
 
-const TABS = [
-  { id: "today", label: "Today" },
-  { id: "roadmap", label: "Roadmap" },
-  { id: "course", label: "ML Course" },
-  { id: "patterns", label: "Patterns" },
-  { id: "scratch", label: "From Scratch" },
-  { id: "ledger", label: "Guide Index" },
-  { id: "pro", label: "Full Roadmap" },
-  { id: "later", label: "After January" },
+const TOTALS = {
+  roadmap: ROADMAP_TOTAL,
+  pro: PRO_TOTAL,
+  later: LATER_TOTAL,
+  course: COURSE_TOTAL,
+  scratch: MODULES.length * MILESTONES.length,
+  patterns: CHAPTERS.length,
+  ledger: LEDGER_TOTAL,
+};
+
+const GROUPS = [
+  { id: "today", label: "Today", desc: "Check in, review what is due, see what is next", tabs: [{ id: "today", label: "Today" }] },
+  {
+    id: "plan", label: "Plan", tabs: [
+      { id: "roadmap", label: "13 Weeks" },
+      { id: "pro", label: "Full Roadmap" },
+      { id: "later", label: "After January" },
+    ],
+  },
+  {
+    id: "learn", label: "Learn", tabs: [
+      { id: "course", label: "ML Course" },
+      { id: "scratch", label: "From Scratch" },
+      { id: "patterns", label: "Patterns" },
+    ],
+  },
+  { id: "library", label: "Library", desc: "Index of your two long study guides", tabs: [{ id: "ledger", label: "Guide Index" }] },
 ];
 
-const TOTAL = 26 + 85 + 68 + 169 + COURSE_TOTAL + LATER_TOTAL + PRO_TOTAL;
-
+const groupOf = (tabId) => GROUPS.find((g) => g.tabs.some((t) => t.id === tabId));
 const scrollToEl = (id) => document.getElementById(id)?.scrollIntoView({ block: "start" });
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
 
 export default function MissionControl() {
   const [tab, setTab] = useState("today");
   const pendingRef = useRef(null);
+  const lastInGroup = useRef({});
 
   const [patterns, setPatterns] = useStored("mc-patterns");
   const [scratch, setScratch] = useStored("mc-scratch");
   const [ledger, setLedger] = useStored("mc-ledger");
   const [roadmap, setRoadmap] = useStored("mc-roadmap");
   const [course, setCourse] = useStored("mc-course");
-  const [notes, setNotes] = useStored("mc-notes");
-  const [review, setReview] = useStored("mc-review");
   const [later, setLater] = useStored("mc-later");
   const [pro, setPro] = useStored("mc-pro");
+  const [notes, setNotes] = useStored("mc-notes");
+  const [review, setReview] = useStored("mc-review");
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -60,39 +83,37 @@ export default function MissionControl() {
   );
 
   useEffect(() => {
+    lastInGroup.current[groupOf(tab).id] = tab;
     const id = pendingRef.current;
     pendingRef.current = null;
     if (id) scrollToEl(id);
     else window.scrollTo(0, 0);
   }, [tab]);
 
-  const badge = (obj, total) => `${countDone(obj)}/${total}`;
-  const badges = {
-    roadmap: badge(roadmap, 169),
-    course: badge(course, COURSE_TOTAL),
-    patterns: badge(patterns, 26),
-    scratch: badge(scratch, 85),
-    ledger: badge(ledger, 68),
-    later: badge(later, LATER_TOTAL),
-    pro: badge(pro, PRO_TOTAL),
-  };
-  const tabs = TABS.map((t) => ({ ...t, badge: badges[t.id] }));
-  const done = countDone(patterns) + countDone(scratch) + countDone(ledger) + countDone(roadmap) + countDone(course) + countDone(later) + countDone(pro);
+  const stores = { roadmap, pro, later, course, scratch, patterns, ledger };
+  const done = Object.values(stores).reduce((n, s) => n + countDone(s), 0);
+  const total = Object.values(TOTALS).reduce((n, x) => n + x, 0);
+  const groups = GROUPS.map((g) => ({
+    ...g,
+    tabs: g.tabs.map((t) => ({ ...t, badge: TOTALS[t.id] ? `${countDone(stores[t.id])}/${TOTALS[t.id]}` : null })),
+  }));
+  const activeGroup = groupOf(tab).id;
+  const selectGroup = (gid) => jumpTo(lastInGroup.current[gid] || GROUPS.find((g) => g.id === gid).tabs[0].id, null);
 
   return (
     <>
       <PwaRegister />
-      <TopBar tabs={tabs} active={tab} onSelect={(id) => jumpTo(id, null)} done={done} total={TOTAL} />
+      <TopBar groups={groups} activeGroup={activeGroup} activeTab={tab} onGroup={selectGroup} onTab={(id) => jumpTo(id, null)} done={done} total={total} />
       {tab === "today" && (
         <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} later={later} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
-      {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
-      {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
-      {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
-      {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
       {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} jumpTo={jumpTo} />}
       {tab === "later" && <LaterTab state={later} setState={setLater} setReview={setReview} jumpTo={jumpTo} />}
+      {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
+      {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
+      {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
+      {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
     </>
   );
 }

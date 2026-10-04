@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ConfirmReset from "../ui/ConfirmReset";
 import styles from "./DocShell.module.css";
 
 export default function DocShell({ title, sub, onReset, progress, search, footer, sidebar, barColor, children }) {
@@ -24,7 +25,7 @@ export default function DocShell({ title, sub, onReset, progress, search, footer
         <div className={styles.header} onClick={(e) => e.stopPropagation()}>
           <div className={styles.title}>{title}</div>
           <div className={styles.sub}>{sub}</div>
-          <button className={styles.reset} onClick={onReset}>Reset</button>
+          <ConfirmReset onConfirm={onReset} />
         </div>
         <div className={styles.progress} onClick={(e) => e.stopPropagation()}>
           {progress.map((p) => (
