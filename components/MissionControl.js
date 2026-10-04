@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { COURSE_TOTAL } from "./tabs/courseData";
+import { LATER_TOTAL } from "./tabs/laterData";
+import LaterTab from "./tabs/LaterTab";
 import { useStored } from "@/lib/useStored";
 import PwaRegister from "./PwaRegister";
 import TopBar from "./TopBar";
@@ -19,9 +21,10 @@ const TABS = [
   { id: "patterns", label: "Patterns" },
   { id: "scratch", label: "From Scratch" },
   { id: "ledger", label: "Guide Index" },
+  { id: "later", label: "After January" },
 ];
 
-const TOTAL = 26 + 85 + 68 + 169 + COURSE_TOTAL;
+const TOTAL = 26 + 85 + 68 + 169 + COURSE_TOTAL + LATER_TOTAL;
 
 const scrollToEl = (id) => document.getElementById(id)?.scrollIntoView({ block: "start" });
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
@@ -37,6 +40,7 @@ export default function MissionControl() {
   const [course, setCourse] = useStored("mc-course");
   const [notes, setNotes] = useStored("mc-notes");
   const [review, setReview] = useStored("mc-review");
+  const [later, setLater] = useStored("mc-later");
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -65,9 +69,10 @@ export default function MissionControl() {
     patterns: badge(patterns, 26),
     scratch: badge(scratch, 85),
     ledger: badge(ledger, 68),
+    later: badge(later, LATER_TOTAL),
   };
   const tabs = TABS.map((t) => ({ ...t, badge: badges[t.id] }));
-  const done = countDone(patterns) + countDone(scratch) + countDone(ledger) + countDone(roadmap) + countDone(course);
+  const done = countDone(patterns) + countDone(scratch) + countDone(ledger) + countDone(roadmap) + countDone(course) + countDone(later);
 
   return (
     <>
@@ -81,6 +86,7 @@ export default function MissionControl() {
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
+      {tab === "later" && <LaterTab state={later} setState={setLater} jumpTo={jumpTo} />}
     </>
   );
 }
