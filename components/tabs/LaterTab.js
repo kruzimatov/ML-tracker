@@ -1,15 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { todayISO } from "@/lib/dates";
 import { GATE, LATER_TOTAL, PHASES, SKIP } from "./laterData";
 import styles from "./LaterTab.module.css";
 
 const KIND = { must: "Core", deep: "Depth", goal: "Deliverable" };
 
-export default function LaterTab({ state, setState, jumpTo }) {
+export default function LaterTab({ state, setState, setReview, jumpTo }) {
   const [open, setOpen] = useState({});
   const done = Object.values(state).filter(Boolean).length;
-  const toggle = (k) => setState((s) => ({ ...s, [k]: !s[k] }));
+  const toggle = (id, kind) =>
+    setState((s) => {
+      const now = !s[id];
+      if (kind !== "goal") {
+        setReview((r) => {
+          const n = { ...r };
+          if (now) n[`later:${id}`] ??= { last: todayISO(), stage: 0 };
+          else delete n[`later:${id}`];
+          return n;
+        });
+      }
+      return { ...s, [id]: now };
+    });
 
   return (
     <div className={`${styles.wrap} mc-fade`}>
@@ -41,9 +54,9 @@ export default function LaterTab({ state, setState, jumpTo }) {
           </div>
           <p className={styles.blurb}>{p.blurb}</p>
           {p.topics.map((t) => (
-            <div key={t.id} className={`${styles.topic} ${state[t.id] ? styles.done : ""}`}>
+            <div key={t.id} id={`topic-${t.id}`} className={`${styles.topic} ${state[t.id] ? styles.done : ""}`}>
               <div className={styles.row}>
-                <input type="checkbox" className={styles.cb} checked={!!state[t.id]} onChange={() => toggle(t.id)} aria-label={`Mark ${t.title} done`} />
+                <input type="checkbox" className={styles.cb} checked={!!state[t.id]} onChange={() => toggle(t.id, t.kind)} aria-label={`Mark ${t.title} done`} />
                 <button className={styles.head} onClick={() => setOpen((o) => ({ ...o, [t.id]: !o[t.id] }))}>
                   <span className={`${styles.kind} ${styles[t.kind]}`}>{KIND[t.kind]}</span>
                   <span className={styles.tt}>{t.title}</span>

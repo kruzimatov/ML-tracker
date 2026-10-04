@@ -16,7 +16,7 @@
 .h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; }
 .weeks { margin-left: auto; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); }
 .blurb { color: var(--text2); font-size: 0.9rem; margin: 4px 0 12px; }
-.topic { border: 1px solid var(--border); background: var(--glass); border-radius: 10px; margin-bottom: 8px; }
+.topic { scroll-margin-top: calc(var(--tb-h) + 20px); border: 1px solid var(--border); background: var(--glass); border-radius: 10px; margin-bottom: 8px; }
 .done { background: var(--green-dim); border-color: rgba(126, 198, 153, 0.35); }
 .row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
 .cb { accent-color: var(--green); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }

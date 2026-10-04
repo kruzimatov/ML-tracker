@@ -1,4 +1,4 @@
-import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono, Balsamiq_Sans } from "next/font/google";
 import "./globals.css";
 
 const newsreader = Newsreader({
@@ -11,6 +11,12 @@ const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const balsamiq = Balsamiq_Sans({
+  variable: "--font-balsamiq",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -30,7 +36,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} ${balsamiq.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{

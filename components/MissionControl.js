@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { COURSE_TOTAL } from "./tabs/courseData";
 import { LATER_TOTAL } from "./tabs/laterData";
 import LaterTab from "./tabs/LaterTab";
+import ProRoadmapTab from "./tabs/ProRoadmapTab";
+import { PRO_TOTAL } from "./tabs/proRoadmapData";
 import { useStored } from "@/lib/useStored";
 import PwaRegister from "./PwaRegister";
 import TopBar from "./TopBar";
@@ -21,10 +23,11 @@ const TABS = [
   { id: "patterns", label: "Patterns" },
   { id: "scratch", label: "From Scratch" },
   { id: "ledger", label: "Guide Index" },
+  { id: "pro", label: "Full Roadmap" },
   { id: "later", label: "After January" },
 ];
 
-const TOTAL = 26 + 85 + 68 + 169 + COURSE_TOTAL + LATER_TOTAL;
+const TOTAL = 26 + 85 + 68 + 169 + COURSE_TOTAL + LATER_TOTAL + PRO_TOTAL;
 
 const scrollToEl = (id) => document.getElementById(id)?.scrollIntoView({ block: "start" });
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
@@ -41,6 +44,7 @@ export default function MissionControl() {
   const [notes, setNotes] = useStored("mc-notes");
   const [review, setReview] = useStored("mc-review");
   const [later, setLater] = useStored("mc-later");
+  const [pro, setPro] = useStored("mc-pro");
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -70,23 +74,25 @@ export default function MissionControl() {
     scratch: badge(scratch, 85),
     ledger: badge(ledger, 68),
     later: badge(later, LATER_TOTAL),
+    pro: badge(pro, PRO_TOTAL),
   };
   const tabs = TABS.map((t) => ({ ...t, badge: badges[t.id] }));
-  const done = countDone(patterns) + countDone(scratch) + countDone(ledger) + countDone(roadmap) + countDone(course) + countDone(later);
+  const done = countDone(patterns) + countDone(scratch) + countDone(ledger) + countDone(roadmap) + countDone(course) + countDone(later) + countDone(pro);
 
   return (
     <>
       <PwaRegister />
       <TopBar tabs={tabs} active={tab} onSelect={(id) => jumpTo(id, null)} done={done} total={TOTAL} />
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} later={later} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
-      {tab === "later" && <LaterTab state={later} setState={setLater} jumpTo={jumpTo} />}
+      {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} jumpTo={jumpTo} />}
+      {tab === "later" && <LaterTab state={later} setState={setLater} setReview={setReview} jumpTo={jumpTo} />}
     </>
   );
 }
