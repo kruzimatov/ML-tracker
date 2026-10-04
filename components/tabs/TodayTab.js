@@ -22,7 +22,7 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, later, notes, setNotes, review, setReview, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -63,7 +63,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   const courseWeeks = COURSE.courses.flatMap((c, ci) => c.weeks.map((w, wi) => ({ ci, wi, t: w.t })));
   const nextCourse = courseWeeks.find((w) => SQUARES.some((sq) => !course[`${w.ci}-${w.wi}:${sq.key}`]));
   const iso = todayISO();
-  const due = dueReviews(patterns, scratch, later, review, iso);
+  const due = dueReviews(patterns, scratch, pro, review, iso);
   const weekReviewDay = started && !over && today % 7 >= 5;
   const todayKey = dayKey(today);
   const deliverKey = `${wk}:deliverable`;

@@ -157,3 +157,26 @@ export const FOOTER = T(
   "Source: a public artifact, \"ML Roadmap — Backend → Applied ML\" (author unknown), copied here for personal study. The \"Your level\" phase and the \"For you\" notes are additions.",
   "Manba: ommaviy artifact, \"ML Roadmap — Backend → Applied ML\" (muallif noma'lum), shaxsiy o'qish uchun ko'chirilgan. \"Sizning darajangiz\" bosqichi va \"Siz uchun\" izohlari qo'shimchalar."
 );
+
+export const JUMPS = {
+  "m-linalg": { tab: "scratch", id: "linear-algebra", label: "Linear Algebra, From Scratch" },
+  "c-cv": { tab: "course", id: null, label: "Andrew Ng, Course 2 week 3" },
+  "c-gbm": { tab: "scratch", id: "ensembles", label: "Ensemble Methods, From Scratch" },
+  "l-embed": { tab: "ledger", id: "sec-ragtheory", label: "RAG Theory: Embedding Chuqur" },
+  "l-rageval": { tab: "ledger", id: "sec-ragtheory", label: "RAG Evaluation (RAGAS)" },
+  "l-chunk": { tab: "ledger", id: "sec-ragtheory", label: "Chunking Strategiyalari" },
+  "o-serve": { tab: "scratch", id: "fastapi-basics", label: "FastAPI Fundamentals" },
+};
+
+export const GATE = {
+  title: T("Phases 1–5 come after your foundation", "1–5-bosqichlar poydevordan keyin"),
+  items: [
+    T("Both portfolio projects (CRUD API and Kitobon RAG) are live with links on your CV.", "Ikkala portfolio loyihasi (CRUD API va Kitobon RAG) jonli va CV'da havolalari bor."),
+    T("Andrew Ng's Courses 1 and 2 are finished, with the NumPy rewrites done.", "Andrew Ng'ning 1 va 2-kurslari tugagan, NumPy'da qayta yozish bajarilgan."),
+    T("Your job search is running (5 applications a week). This is for the job you land, not a reason to stop applying.", "Ish qidiruvingiz ketmoqda (haftasiga 5 ariza). Bu topgan ishingiz uchun, ariza berishni to'xtatish sababi emas."),
+  ],
+};
+
+// topics that enter spaced review once ticked (no deliverables, rules, or the Specialize phase)
+export const REVIEW_EXCLUDE_PHASES = ["pU", "p6"];
+export const REVIEW_EXCLUDE_TOPICS = ["m-timebox"];

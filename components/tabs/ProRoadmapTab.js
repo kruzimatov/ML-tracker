@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useStored } from "@/lib/useStored";
-import { PHASES, PRO_TOTAL, SKIPS, UI } from "./proRoadmapData";
+import { todayISO } from "@/lib/dates";
+import { GATE, PHASES, PRO_TOTAL, REVIEW_TOPICS, SKIPS, UI } from "./proRoadmapData";
 import styles from "./ProRoadmapTab.module.css";
 
 const t = (v, lang) => (v == null ? "" : typeof v === "string" ? v : v[lang] || v.en || "");
@@ -12,7 +13,9 @@ const boldOnly = (s) => esc(s).replace(/&lt;b&gt;/g, "<b>").replace(/&lt;\/b&gt;
 const ADDED = { en: "Added for you", uz: "Siz uchun qo'shilgan" };
 const NOTE = { en: "For you", uz: "Siz uchun" };
 
-export default function ProRoadmapTab({ state, setState, jumpTo }) {
+const REVIEWABLE = new Set(REVIEW_TOPICS.map(({ t }) => t.id));
+
+export default function ProRoadmapTab({ state, setState, setReview, jumpTo }) {
   const [cfg, setCfg] = useStored("mc-prolang");
   const lang = cfg.lang === "uz" ? "uz" : "en";
   const [currentId, setCurrentId] = useState(null);
@@ -28,11 +31,26 @@ export default function ProRoadmapTab({ state, setState, jumpTo }) {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const toggle = (id) => setState((s) => { const n = { ...s }; if (n[id]) delete n[id]; else n[id] = true; return n; });
+  const toggle = (id) =>
+    setState((s) => {
+      const n = { ...s };
+      const now = !n[id];
+      if (now) n[id] = true;
+      else delete n[id];
+      if (REVIEWABLE.has(id)) {
+        setReview((r) => {
+          const next = { ...r };
+          if (now) next[`pro:${id}`] ??= { last: todayISO(), stage: 0 };
+          else delete next[`pro:${id}`];
+          return next;
+        });
+      }
+      return n;
+    });
   const kindLabel = (k) => t({ must: UI.kMust, deep: UI.kDeep, goal: UI.kGoal, skip: UI.kSkip }[k] || UI.kMust, lang);
 
   const node = (x) => (
-    <button key={x.id} type="button" onClick={() => setCurrentId(x.id)}
+    <button key={x.id} id={`node-${x.id}`} type="button" onClick={() => setCurrentId(x.id)}
       className={`${styles.node} ${styles[x.kind]} ${x.nocheck ? styles.nocheck : ""} ${state[x.id] ? styles.isDone : ""}`}>
       <span className={styles.tick} aria-hidden="true">{state[x.id] ? "✓" : ""}</span>
       <span className={styles.lbl}>
@@ -81,6 +99,12 @@ export default function ProRoadmapTab({ state, setState, jumpTo }) {
       <main className={styles.roadmap}>
         {PHASES.map((p) => (
           <section key={p.id} className={styles.phase}>
+            {p.id === "p1" && (
+              <div className={styles.gate}>
+                <b>{t(GATE.title, lang)}</b>
+                <ul>{GATE.items.map((g, i) => <li key={i}>{t(g, lang)}</li>)}</ul>
+              </div>
+            )}
             <div className={styles.phaseHead}>
               <div className={`${styles.pnode} ${p.hi ? styles.hi : ""}`}>
                 <div className={styles.ph}>{t(p.label, lang)}</div>

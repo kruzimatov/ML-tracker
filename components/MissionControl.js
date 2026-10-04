@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useStored } from "@/lib/useStored";
+import { notifyStored, useStored } from "@/lib/useStored";
+import { runLaterMigration } from "@/lib/migrate";
 import PwaRegister from "./PwaRegister";
 import TopBar from "./TopBar";
 import TodayTab from "./tabs/TodayTab";
@@ -10,21 +11,18 @@ import CourseTab from "./tabs/CourseTab";
 import PatternsTab from "./tabs/PatternsTab";
 import ScratchTab from "./tabs/ScratchTab";
 import LedgerTab from "./tabs/LedgerTab";
-import LaterTab from "./tabs/LaterTab";
 import ProRoadmapTab from "./tabs/ProRoadmapTab";
 import { CHAPTERS } from "./tabs/patternsData";
 import { MODULES } from "./tabs/scratchData";
 import { LEDGER_TOTAL } from "./tabs/ledgerData";
 import { ROADMAP_TOTAL } from "./tabs/roadmapData";
 import { COURSE_TOTAL } from "./tabs/courseData";
-import { LATER_TOTAL } from "./tabs/laterData";
 import { PRO_TOTAL } from "./tabs/proRoadmapData";
 import { MILESTONES } from "./tabs/milestones";
 
 const TOTALS = {
   roadmap: ROADMAP_TOTAL,
   pro: PRO_TOTAL,
-  later: LATER_TOTAL,
   course: COURSE_TOTAL,
   scratch: MODULES.length * MILESTONES.length,
   patterns: CHAPTERS.length,
@@ -37,7 +35,6 @@ const GROUPS = [
     id: "plan", label: "Plan", tabs: [
       { id: "roadmap", label: "13 Weeks" },
       { id: "pro", label: "Full Roadmap" },
-      { id: "later", label: "After January" },
     ],
   },
   {
@@ -64,7 +61,6 @@ export default function MissionControl() {
   const [ledger, setLedger] = useStored("mc-ledger");
   const [roadmap, setRoadmap] = useStored("mc-roadmap");
   const [course, setCourse] = useStored("mc-course");
-  const [later, setLater] = useStored("mc-later");
   const [pro, setPro] = useStored("mc-pro");
   const [notes, setNotes] = useStored("mc-notes");
   const [review, setReview] = useStored("mc-review");
@@ -83,6 +79,11 @@ export default function MissionControl() {
   );
 
   useEffect(() => {
+    runLaterMigration();
+    notifyStored();
+  }, []);
+
+  useEffect(() => {
     lastInGroup.current[groupOf(tab).id] = tab;
     const id = pendingRef.current;
     pendingRef.current = null;
@@ -90,7 +91,7 @@ export default function MissionControl() {
     else window.scrollTo(0, 0);
   }, [tab]);
 
-  const stores = { roadmap, pro, later, course, scratch, patterns, ledger };
+  const stores = { roadmap, pro, course, scratch, patterns, ledger };
   const done = Object.values(stores).reduce((n, s) => n + countDone(s), 0);
   const total = Object.values(TOTALS).reduce((n, x) => n + x, 0);
   const groups = GROUPS.map((g) => ({
@@ -105,11 +106,10 @@ export default function MissionControl() {
       <PwaRegister />
       <TopBar groups={groups} activeGroup={activeGroup} activeTab={tab} onGroup={selectGroup} onTab={(id) => jumpTo(id, null)} done={done} total={total} />
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} later={later} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
-      {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} jumpTo={jumpTo} />}
-      {tab === "later" && <LaterTab state={later} setState={setLater} setReview={setReview} jumpTo={jumpTo} />}
+      {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} setReview={setReview} jumpTo={jumpTo} />}
       {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
