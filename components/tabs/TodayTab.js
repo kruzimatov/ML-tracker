@@ -109,7 +109,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
             </button>
             <label className={styles.hours}>
               <span>Hours worked today</span>
-              <input type="number" min="0" max="16" step="0.25" inputMode="decimal" value={hoursToday ?? ""} onChange={(e) => setTodayHours(e.target.value)} placeholder="0" />
+              <input id="log-hours" type="number" min="0" max="16" step="0.25" inputMode="decimal" value={hoursToday ?? ""} onChange={(e) => setTodayHours(e.target.value)} placeholder="0" />
             </label>
             <button className={`${styles.ghost} ${roadmap[deliverKey] ? styles.ghostDone : ""}`} onClick={() => toggle(deliverKey)}>
               {roadmap[deliverKey] ? "✓ " : ""}Deliverable: {week.deliverable}

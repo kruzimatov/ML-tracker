@@ -1,7 +1,7 @@
 .root { position: relative; flex-shrink: 0; }
 .btn { background: var(--glass); border: 1px solid var(--border); color: var(--text2); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
 .btn:hover { border-color: var(--text2); }
-.pop { position: fixed; top: calc(var(--tb-h) + 6px); right: 12px; width: 300px; max-height: calc(100vh - var(--tb-h) - 20px); overflow-y: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; z-index: 6000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+.pop { position: fixed; bottom: calc(var(--bb-h) + 12px); left: calc(var(--side-w) + 12px); max-width: calc(100vw - 24px); width: 300px; max-height: calc(100vh - var(--bb-h) - 24px); overflow-y: auto; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; z-index: 6000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
 .h { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; margin-bottom: 8px; }
 .sec { padding: 10px 0; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--text2); }
 .sec b { color: var(--text); display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.82rem; }

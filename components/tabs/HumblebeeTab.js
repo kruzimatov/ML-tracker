@@ -28,7 +28,7 @@ export default function HumblebeeTab({ state, setState }) {
           {m.sections.map((sec, si) => {
             const secDone = sec.items.filter((_, ii) => state[`${mi}-${si}-${ii}`]).length;
             return (
-              <div key={si} className={styles.section}>
+              <div key={si} id={`hb-${mi}-${si}`} className={styles.section}>
                 <div className={styles.secHead}>
                   <a href={`${m.url}#${sec.anchor}`} target="_blank" rel="noopener noreferrer">{sec.heading} ↗</a>
                   <span className={styles.secCount}>{secDone}/{sec.items.length}</span>

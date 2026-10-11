@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { notifyStored, useStored } from "@/lib/useStored";
 import { runLaterMigration } from "@/lib/migrate";
 import PwaRegister from "./PwaRegister";
-import TopBar from "./TopBar";
+import Sidebar from "./Sidebar";
+import CommandPalette from "./CommandPalette";
 import TodayTab from "./tabs/TodayTab";
 import RoadmapTab from "./tabs/RoadmapTab";
 import CourseTab from "./tabs/CourseTab";
@@ -33,32 +34,37 @@ const TOTALS = {
 };
 
 const GROUPS = [
-  { id: "today", label: "Today", desc: "Check in, review what is due, see what is next", tabs: [{ id: "today", label: "Today" }] },
+  { id: "today", label: "Today", tabs: [{ id: "today", label: "Today", short: "Td" }] },
   {
     id: "plan", label: "Plan", tabs: [
-      { id: "roadmap", label: "13 Weeks" },
-      { id: "pro", label: "Full Roadmap" },
+      { id: "roadmap", label: "13 Weeks", short: "13W" },
+      { id: "pro", label: "Full Roadmap", short: "FR" },
     ],
   },
   {
     id: "learn", label: "Learn", tabs: [
-      { id: "course", label: "ML Course" },
-      { id: "humblebee", label: "HumbleBee" },
-      { id: "scratch", label: "From Scratch" },
-      { id: "patterns", label: "Patterns" },
+      { id: "course", label: "ML Course", short: "ML" },
+      { id: "humblebee", label: "HumbleBee", short: "HB" },
+      { id: "scratch", label: "From Scratch", short: "FS", doc: true },
+      { id: "patterns", label: "Patterns", short: "Pt", doc: true },
     ],
   },
-  { id: "library", label: "Library", desc: "Index of your two long study guides", tabs: [{ id: "ledger", label: "Guide Index" }] },
+  { id: "library", label: "Library", tabs: [{ id: "ledger", label: "Guide Index", short: "GI" }] },
 ];
 
-const groupOf = (tabId) => GROUPS.find((g) => g.tabs.some((t) => t.id === tabId));
-const scrollToEl = (id) => document.getElementById(id)?.scrollIntoView({ block: "start" });
+const DOC_TABS = new Set(GROUPS.flatMap((g) => g.tabs.filter((t) => t.doc).map((t) => t.id)));
+const scrollToEl = (id) => {
+  const el = document.getElementById(id);
+  el?.scrollIntoView({ block: "start" });
+  if (el?.matches("input, textarea")) el.focus({ preventScroll: true });
+};
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
 
 export default function MissionControl() {
   const [tab, setTab] = useState("today");
+  const [search, setSearch] = useState(false);
+  const [railPick, setRailPick] = useState({});
   const pendingRef = useRef(null);
-  const lastInGroup = useRef({});
 
   const [patterns, setPatterns] = useStored("mc-patterns");
   const [scratch, setScratch] = useStored("mc-scratch");
@@ -90,7 +96,22 @@ export default function MissionControl() {
   }, []);
 
   useEffect(() => {
-    lastInGroup.current[groupOf(tab).id] = tab;
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearch((s) => !s);
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const rail = railPick[tab] ?? DOC_TABS.has(tab);
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-rail", rail);
+  }, [rail]);
+
+  useEffect(() => {
     const id = pendingRef.current;
     pendingRef.current = null;
     if (id) scrollToEl(id);
@@ -104,13 +125,14 @@ export default function MissionControl() {
     ...g,
     tabs: g.tabs.map((t) => ({ ...t, badge: TOTALS[t.id] ? `${countDone(stores[t.id])}/${TOTALS[t.id]}` : null })),
   }));
-  const activeGroup = groupOf(tab).id;
-  const selectGroup = (gid) => jumpTo(lastInGroup.current[gid] || GROUPS.find((g) => g.id === gid).tabs[0].id, null);
 
   return (
     <>
       <PwaRegister />
-      <TopBar groups={groups} activeGroup={activeGroup} activeTab={tab} onGroup={selectGroup} onTab={(id) => jumpTo(id, null)} done={done} total={total} />
+      <Sidebar groups={groups} activeTab={tab} onTab={(id) => jumpTo(id, null)} done={done} total={total}
+        onSearch={() => setSearch(true)} rail={rail} onRail={() => setRailPick((p) => ({ ...p, [tab]: !rail }))} />
+      {search && <CommandPalette groups={groups} onClose={() => setSearch(false)} jumpTo={jumpTo} />}
+      <main className="mc-main">
       {tab === "today" && (
         <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} hours={hours} setHours={setHours} totalDone={done} jumpTo={jumpTo} />
       )}
@@ -121,6 +143,7 @@ export default function MissionControl() {
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
+      </main>
     </>
   );
 }
