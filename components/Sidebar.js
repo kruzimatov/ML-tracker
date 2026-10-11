@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import AccountMenu from "./AccountMenu";
 import BackupMenu from "./BackupMenu";
 import ReminderMenu from "./ReminderMenu";
 import { toggleTheme, useTheme } from "@/lib/theme";
@@ -15,6 +16,7 @@ function Tools({ done, total }) {
   return (
     <div className={styles.tools}>
       <span className={styles.agg}><b>{done}</b> / {total}</span>
+      <AccountMenu />
       <ReminderMenu />
       <BackupMenu />
       <button className={styles.icon} onClick={toggleTheme} aria-label="Toggle light/dark theme" title="Toggle theme">

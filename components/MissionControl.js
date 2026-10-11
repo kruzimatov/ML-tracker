@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { notifyStored, useStored } from "@/lib/useStored";
 import { runLaterMigration } from "@/lib/migrate";
+import { startSync } from "@/lib/sync";
 import PwaRegister from "./PwaRegister";
 import Sidebar from "./Sidebar";
 import CommandPalette from "./CommandPalette";
@@ -101,6 +102,7 @@ export default function MissionControl() {
   useEffect(() => {
     runLaterMigration();
     notifyStored();
+    startSync();
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-const CACHE = "mc-v1";
+const CACHE = "mc-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -15,7 +15,7 @@ self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin || url.pathname.startsWith("/api/")) return;
 
   if (req.mode === "navigate") {
     e.respondWith(

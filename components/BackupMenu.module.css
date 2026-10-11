@@ -14,3 +14,7 @@
 .ghost { background: transparent; border: 1px solid var(--border); color: var(--text2); border-radius: 6px; padding: 6px 12px; font-size: 0.78rem; cursor: pointer; }
 .msg { font-size: 0.78rem; color: var(--teal); margin-top: 6px; }
 .last { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); margin-top: 10px; }
+.field { display: block; width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 7px; padding: 8px 11px; font-size: 0.86rem; margin-bottom: 7px; }
+.field:focus { border-color: var(--text2); outline: none; }
+.err { font-size: 0.78rem; color: var(--red); margin-top: 6px; }
+.act:disabled { opacity: 0.6; cursor: default; }
