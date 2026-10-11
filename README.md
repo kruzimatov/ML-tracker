@@ -37,7 +37,7 @@ Progress is per browser. Clearing site data or switching device starts from zero
 
 Live at https://mission-control.safarona.uz. API routes in `app/api/*`, SQLite via Node's built-in `node:sqlite` (file set by `MC_DB`, default `data/mission.db`, git-ignored).
 
-- No public sign-up. Manage accounts on the server:
+- First visitor to an empty server creates the owner account in the ☁ menu; after that, sign-up needs a one-time invite code the owner makes in the same menu. Server-side account tools:
   `cd /var/www/mission-control/app && MC_DB=/var/www/mission-control/data/mission.db node scripts/user.mjs add <username>` (also `passwd`, `remove`, `list`)
 - Deploy: `bash scripts/deploy.sh` (pulls `main` on the server, builds, restarts the `mission-control` service)
 - Backups: daily cron runs `scripts/backup-db.mjs` into `~/backups/mission-control`, keeping 14

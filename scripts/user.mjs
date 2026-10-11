@@ -50,7 +50,8 @@ try {
     }
   } else if (cmd === "add" && /^[a-z0-9_.-]{3,40}$/.test(name ?? "")) {
     if (db.prepare("SELECT 1 FROM users WHERE username = ?").get(name)) throw new Error(`User ${name} already exists.`);
-    db.prepare("INSERT INTO users (username, pass_hash, created_at) VALUES (?, ?, ?)").run(name, await newPassword(), Date.now());
+    const first = db.prepare("SELECT COUNT(*) AS n FROM users").get().n === 0;
+    db.prepare("INSERT INTO users (username, pass_hash, created_at, is_owner) VALUES (?, ?, ?, ?)").run(name, await newPassword(), Date.now(), first ? 1 : 0);
     console.log(`Created ${name}.`);
   } else if (cmd === "passwd" && name) {
     const r = db.prepare("UPDATE users SET pass_hash = ? WHERE username = ?").run(await newPassword(), name);

@@ -14,12 +14,12 @@ export async function POST(request) {
   if (tooManyFailures(ipId, 10) || tooManyFailures(userId, 5)) {
     return Response.json({ error: "Too many attempts. Try again in 15 minutes." }, { status: 429 });
   }
-  const user = getDb().prepare("SELECT id, username, pass_hash FROM users WHERE username = ?").get(username);
+  const user = getDb().prepare("SELECT id, username, pass_hash, is_owner FROM users WHERE username = ?").get(username);
   const ok = verifyPassword(password, user?.pass_hash ?? DUMMY_HASH) && !!user;
   if (!ok) {
     recordFailure(ipId);
     recordFailure(userId);
     return Response.json({ error: "Wrong username or password." }, { status: 401 });
   }
-  return Response.json({ username: user.username }, { headers: { "Set-Cookie": sessionCookie(createSession(user.id)) } });
+  return Response.json({ username: user.username, owner: !!user.is_owner }, { headers: { "Set-Cookie": sessionCookie(createSession(user.id)) } });
 }

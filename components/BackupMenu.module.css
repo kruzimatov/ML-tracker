@@ -18,3 +18,8 @@
 .field:focus { border-color: var(--text2); outline: none; }
 .err { font-size: 0.78rem; color: var(--red); margin-top: 6px; }
 .act:disabled { opacity: 0.6; cursor: default; }
+.link { background: none; border: none; color: var(--accent); font-size: 0.78rem; cursor: pointer; padding: 6px 0 0; text-decoration: underline; }
+.tag { margin-left: 8px; font-family: var(--font-mono); font-size: 0.62rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; vertical-align: middle; }
+.code { border: 1px dashed var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; }
+.code b { font-family: var(--font-mono); font-size: 1.1rem; letter-spacing: 0.08em; color: var(--text); }
+.code p { grid-column: 1 / -1; margin: 0; }
