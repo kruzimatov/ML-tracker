@@ -14,7 +14,7 @@ export default function HumblebeeTab({ state, setState }) {
       <PageHead kicker={<>HumbleBeeAI</>} title={<>{HUMBLEBEE.title}</>} color="var(--accent)" />
       <p className={styles.by}>{HUMBLEBEE.by}</p>
       <a className={styles.open} href={HUMBLEBEE.url} target="_blank" rel="noopener noreferrer">Open curriculum ↗</a>
-      <span className={styles.deadline}>Target: {HUMBLEBEE.deadline}</span>
+      <span className={styles.deadline}>Target: {HUMBLEBEE.deadline} · synced {HUMBLEBEE.synced}</span>
 
       <div className={styles.progWrap}>
         <ProgressRow done={done} total={HUMBLEBEE_TOTAL} color="var(--accent)" onReset={() => setState({})} />
@@ -22,14 +22,21 @@ export default function HumblebeeTab({ state, setState }) {
 
       {HUMBLEBEE.modules.map((m, mi) => (
         <section key={mi} className={styles.module}>
-          <h2 className={styles.h2}>{m.name}</h2>
+          <h2 className={styles.h2}>
+            <a href={m.url} target="_blank" rel="noopener noreferrer">{m.name} ↗</a>
+          </h2>
           {m.sections.map((sec, si) => {
             const secDone = sec.items.filter((_, ii) => state[`${mi}-${si}-${ii}`]).length;
             return (
               <div key={si} className={styles.section}>
                 <div className={styles.secHead}>
-                  {sec.heading}
+                  <a href={`${m.url}#${sec.anchor}`} target="_blank" rel="noopener noreferrer">{sec.heading} ↗</a>
                   <span className={styles.secCount}>{secDone}/{sec.items.length}</span>
+                </div>
+                <div className={styles.links}>
+                  {sec.links.map((l) => (
+                    <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a>
+                  ))}
                 </div>
                 <div className={styles.items}>
                   {sec.items.map((item, ii) => {

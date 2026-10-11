@@ -2,7 +2,7 @@
 
 One tracker for the whole plan: a 13-week roadmap with daily check-ins, DSA + system design patterns, the math/ML/RAG build, and an index over the two long study guides.
 
-Next.js (App Router, JavaScript). No backend: progress is stored in the browser's `localStorage` (keys `mc-roadmap`, `mc-patterns`, `mc-scratch`, `mc-ledger`).
+Next.js (App Router, JavaScript). No backend: progress is stored in the browser's `localStorage`.
 
 ## Run
 
