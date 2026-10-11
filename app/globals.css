@@ -18,11 +18,13 @@
   --text: #e6e8eb;
   --text2: #9aa4b2;
   --text3: #5c6773;
-  --border: rgba(255, 255, 255, 0.09);
-  --glass: rgba(255, 255, 255, 0.035);
+  --border: rgba(255, 255, 255, 0.085);
+  --glass: rgba(255, 255, 255, 0.04);
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+  --on-accent: #0b0f14;
   --code-bg: #0e1319;
   --code-text: #c7d0da;
-  --sidebar-bg: #0e1319;
+  --sidebar-bg: #0d1117;
   --topbar-bg: #0e1319;
   --hover: rgba(255, 255, 255, 0.04);
   --inline-code: rgba(255, 255, 255, 0.06);
@@ -37,17 +39,19 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f7f8fa; --bg2: #eceff3; --bg3: #dfe4ea;
-  --accent: #d1600c; --accent-dim: rgba(209, 96, 12, 0.1);
-  --gold: #a47608; --gold-dim: rgba(164, 118, 8, 0.12);
-  --teal: #1b7c93; --teal-dim: rgba(27, 124, 147, 0.1);
-  --red: #c4443a; --red-dim: rgba(196, 68, 58, 0.09);
-  --green: #2c8753; --green-dim: rgba(44, 135, 83, 0.1);
-  --text: #141a22; --text2: #46505e; --text3: #7b8594;
-  --border: rgba(0, 0, 0, 0.12); --glass: rgba(0, 0, 0, 0.03);
-  --code-bg: #edf0f4; --code-text: #273140;
-  --sidebar-bg: #eef1f5; --topbar-bg: #ffffff;
-  --hover: rgba(0, 0, 0, 0.05); --inline-code: rgba(0, 0, 0, 0.06); --th-bg: rgba(0, 0, 0, 0.04);
+  --bg: #f3f3ef; --bg2: #ffffff; --bg3: #e6e5df;
+  --accent: #c2410c; --accent-dim: rgba(194, 65, 12, 0.08);
+  --gold: #a16207; --gold-dim: rgba(161, 98, 7, 0.09);
+  --teal: #0e7490; --teal-dim: rgba(14, 116, 144, 0.08);
+  --red: #b91c1c; --red-dim: rgba(185, 28, 28, 0.07);
+  --green: #15803d; --green-dim: rgba(21, 128, 61, 0.08);
+  --text: #1b1d21; --text2: #4b5058; --text3: #7d828a;
+  --border: rgba(28, 25, 20, 0.1); --glass: #ffffff;
+  --card-shadow: 0 1px 2px rgba(28, 25, 20, 0.04), 0 4px 12px -6px rgba(28, 25, 20, 0.08);
+  --on-accent: #ffffff;
+  --code-bg: #f7f7f4; --code-text: #2b3038;
+  --sidebar-bg: #fafaf8; --topbar-bg: #ffffff;
+  --hover: rgba(28, 25, 20, 0.045); --inline-code: rgba(28, 25, 20, 0.06); --th-bg: rgba(28, 25, 20, 0.03);
 }
 
 :root[data-rail] { --side-w: 56px; }
@@ -70,7 +74,7 @@ a { color: inherit; }
 button { font-family: inherit; }
 
 html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-::selection { background: rgba(232, 182, 73, 0.32); }
+::selection { background: var(--gold-dim); }
 :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 4px; }
 button { transition: border-color 0.15s, background 0.15s, color 0.15s; }
 @media (prefers-reduced-motion: no-preference) {

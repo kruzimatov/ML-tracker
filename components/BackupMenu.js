@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { applyBackup, downloadBackup, parseBackup } from "@/lib/backup";
+import { getSyncState, subscribeSync } from "@/lib/sync";
 import styles from "./BackupMenu.module.css";
 
 const fmt = (iso) => (iso ? new Date(iso).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }) : "never");
@@ -12,6 +13,7 @@ export default function BackupMenu() {
   const [pending, setPending] = useState(null);
   const [last, setLast] = useState("");
   const fileRef = useRef(null);
+  const synced = useSyncExternalStore(subscribeSync, () => !!getSyncState().user, () => false);
 
   useEffect(() => {
     const close = (e) => e.detail !== "backup" && setOpen(false);
@@ -50,7 +52,7 @@ export default function BackupMenu() {
       {open && (
         <div className={styles.pop}>
           <div className={styles.h}>Backup</div>
-          <p className={styles.p}>Your progress lives only in this browser. Export a file now and then.</p>
+          <p className={styles.p}>{synced ? "Your progress is saved to your account. A file export is an extra copy you keep yourself." : "Your progress lives only in this browser. Export a file now and then, or sign in to sync."}</p>
           <button className={styles.act} onClick={() => { downloadBackup(); setLast(new Date().toISOString()); setMsg("Backup downloaded."); }}>Export backup (.json)</button>
           <button className={styles.act} onClick={() => fileRef.current?.click()}>Import backup…</button>
           <input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={onFile} />

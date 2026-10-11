@@ -3,6 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { downloadBackup } from "@/lib/backup";
 import { notifyStored, subscribeStored } from "@/lib/useStored";
+import { getSyncState, subscribeSync } from "@/lib/sync";
 import styles from "./BackupNudge.module.css";
 
 const DAY = 86400000;
@@ -20,7 +21,8 @@ function daysSinceExport() {
 
 export default function BackupNudge({ hasProgress }) {
   const days = useSyncExternalStore(subscribeStored, daysSinceExport, () => null);
-  if (!hasProgress || days === null || days < 7) return null;
+  const synced = useSyncExternalStore(subscribeSync, () => !!getSyncState().user, () => false);
+  if (synced || !hasProgress || days === null || days < 7) return null;
 
   const later = () => {
     try {

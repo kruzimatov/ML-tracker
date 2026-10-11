@@ -15,14 +15,14 @@
 .lsqTeal { background: var(--teal); border-color: var(--teal); }
 .ldot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); border: 1.5px solid var(--accent); display: inline-block; }
 
-.week { border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; background: var(--glass); scroll-margin-top: calc(var(--tb-h) + 20px); }
+.week { border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; background: var(--glass); scroll-margin-top: calc(var(--tb-h) + 20px); box-shadow: var(--card-shadow); }
 .current { border-color: var(--teal); background: var(--teal-dim); }
 .weekHead { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
 .weekTitle { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 600; }
 .wn { color: var(--text3); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 400; margin-right: 8px; }
 .weekDates { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text3); }
 .weekPhase { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
-.nowTag { font-family: var(--font-mono); font-size: 0.62rem; background: var(--teal); color: #0b0f14; padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 8px; }
+.nowTag { font-family: var(--font-mono); font-size: 0.62rem; background: var(--teal); color: var(--on-accent); padding: 2px 8px; border-radius: 10px; font-weight: 600; margin-left: 8px; }
 .weekWhy { color: var(--text2); font-size: 0.87rem; margin: 6px 0 10px; }
 .weekHow { margin: 0 0 12px 20px; color: var(--text2); font-size: 0.84rem; }
 .weekHow li { margin-bottom: 4px; }
@@ -37,7 +37,7 @@
 .dayStrip { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
 .dayBox { width: 30px; height: 30px; border-radius: 6px; border: 1.5px solid var(--border); background: transparent; cursor: pointer; font-family: var(--font-mono); font-size: 0.66rem; color: var(--text3); transition: all 0.15s; }
 .dayBox:hover { border-color: var(--text2); }
-.dayBox.done { background: var(--gold); border-color: var(--gold); color: #0b0f14; font-weight: 600; }
+.dayBox.done { background: var(--gold); border-color: var(--gold); color: var(--on-accent); font-weight: 600; }
 .jobRow { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; }
 .jobDot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; cursor: pointer; transition: all 0.15s; }
 .jobDot:hover { border-color: var(--text2); }
