@@ -84,6 +84,7 @@ export default function MissionControl() {
   const [hours, setHours] = useStored("mc-hours");
   const [log, setLog] = useStored("mc-log");
   const [goal, setGoal] = useStored("mc-goal");
+  const [recall, setRecall] = useStored("mc-recall");
   const hydrated = useSyncExternalStore(noop, () => true, () => false);
 
   const jumpTo = useCallback(
@@ -152,10 +153,10 @@ export default function MissionControl() {
       {search && <CommandPalette groups={groups} onClose={() => setSearch(false)} jumpTo={jumpTo} />}
       <main className="mc-main">
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} hours={hours} setHours={setHours} log={log} totalDone={done} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} recall={recall} setRecall={setRecall} hours={hours} setHours={setHours} log={log} totalDone={done} jumpTo={jumpTo} />
       )}
       {tab === "progress" && (
-        <ProgressTab hours={hours} notes={notes} roadmap={roadmap} log={log} review={review} patterns={patterns} scratch={scratch} pro={pro} goal={goal} setGoal={setGoal} tracks={tracks} done={done} />
+        <ProgressTab hours={hours} notes={notes} roadmap={roadmap} log={log} review={review} patterns={patterns} scratch={scratch} pro={pro} goal={goal} setGoal={setGoal} tracks={tracks} done={done} recall={recall} jumpTo={jumpTo} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} setReview={setReview} jumpTo={jumpTo} />}

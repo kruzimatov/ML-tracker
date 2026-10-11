@@ -9,27 +9,38 @@ import styles from "./TodayExtras.module.css";
 
 export const INTERVALS = [3, 7, 21];
 
+// Every item that can come up for review, done or not. done() says whether it is in the review cycle yet.
+export const REVIEW_ITEMS = [
+  ...CHAPTERS.map((c) => ({
+    rk: c.id, tab: "patterns", id: c.id, num: c.num, title: c.title, task: "Write the template from memory on a blank file.",
+    done: (s) => s.patterns[c.id],
+  })),
+  ...MODULES.filter((m) => m.track === "a").map((m) => ({
+    rk: `mod:${m.id}`, tab: "scratch", id: m.id, num: `M${m.mod}`, title: m.name, task: "Rewrite the model in NumPy from memory, then explain the formula out loud.",
+    done: (s) => MILESTONES.every((ms) => s.scratch[`${m.mod}:${ms}`]),
+  })),
+  ...REVIEW_TOPICS.map(({ t, num }) => ({
+    rk: `pro:${t.id}`, tab: "pro", id: `node-${t.id}`, num, title: t.label.en,
+    task: "Explain it out loud in two minutes without notes, then open it and check what you missed.",
+    done: (s) => s.pro[t.id],
+  })),
+];
+
 export function dueReviews(patterns, scratch, pro, review, today) {
-  const items = [
-    ...CHAPTERS.filter((c) => patterns[c.id]).map((c) => ({
-      rk: c.id, tab: "patterns", id: c.id, num: c.num, title: c.title, task: "Write the template from memory on a blank file.",
-    })),
-    ...MODULES.filter((m) => m.track === "a" && MILESTONES.every((ms) => scratch[`${m.mod}:${ms}`])).map((m) => ({
-      rk: `mod:${m.id}`, tab: "scratch", id: m.id, num: `M${m.mod}`, title: m.name, task: "Rewrite the model in NumPy from memory, then explain the formula out loud.",
-    })),
-    ...REVIEW_TOPICS.filter(({ t }) => pro[t.id]).map(({ t, num }) => ({
-      rk: `pro:${t.id}`, tab: "pro", id: `node-${t.id}`, num, title: t.label.en,
-      task: "Explain it out loud in two minutes without notes, then open it and check what you missed.",
-    })),
-  ];
-  return items
+  const s = { patterns, scratch, pro };
+  return REVIEW_ITEMS.filter((it) => it.done(s))
     .map((it) => ({ it, rec: review[it.rk] || { last: null, stage: 0 } }))
     .filter(({ rec }) => rec.stage < INTERVALS.length && (!rec.last || today >= addDaysISO(rec.last, INTERVALS[rec.stage])));
 }
 
-export function ReviewCard({ due, setReview, jumpTo }) {
-  const mark = (id, ok) =>
-    setReview((r) => ({ ...r, [id]: { last: todayISO(), stage: ok ? (r[id]?.stage ?? 0) + 1 : 0 } }));
+const KEEP = 12;
+
+export function ReviewCard({ due, setReview, setRecall, jumpTo }) {
+  const mark = (id, ok) => {
+    const day = todayISO();
+    setReview((r) => ({ ...r, [id]: { last: day, stage: ok ? (r[id]?.stage ?? 0) + 1 : 0 } }));
+    setRecall((r) => ({ ...r, [id]: [...(r[id] || []), [day, ok ? 1 : 0]].slice(-KEEP) }));
+  };
   return (
     <section className={styles.card}>
       <h2 className={styles.h2}>Review due <span className={styles.count}>{due.length}</span></h2>

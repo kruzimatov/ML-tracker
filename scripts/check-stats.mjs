@@ -1,6 +1,6 @@
 // Run: node scripts/check-stats.mjs
 import assert from "node:assert/strict";
-import { checkinDays, doneSince, goalStats, studiedDays, streaks, weekTotals, reviewForecast } from "../lib/stats.js";
+import { checkinDays, doneSince, goalStats, recallRate, studiedDays, streaks, weakest, weekTotals, reviewForecast } from "../lib/stats.js";
 
 const today = "2026-10-11";
 const days = studiedDays({
@@ -26,5 +26,10 @@ assert.equal(doneSince({ "2026-10-09": 15 }, "2026-10-08", 20), null);
 const f = reviewForecast({ a: { last: "2026-10-10", stage: 0 }, b: { last: "2026-10-01", stage: 1 }, c: { last: "2026-10-01", stage: 3 } }, [3, 7, 21], today, 14);
 assert.equal(f[2], 1);
 assert.equal(f.reduce((a, b) => a + b, 0), 1, "overdue and finished items are not forecast");
+
+const recall = { a: [["2026-09-01", 0], ["2026-10-05", 1], ["2026-10-10", 0]], b: [["2026-10-09", 1]], c: [["2026-10-01", 0], ["2026-10-08", 0]] };
+assert.deepEqual(recallRate(recall, today), { got: 2, total: 5, pct: 40, allPct: 33 });
+assert.equal(recallRate({}, today).pct, null);
+assert.deepEqual(weakest(recall).map((w) => [w.rk, w.pct]), [["c", 0], ["a", 33]], "items never missed are not weak");
 
 console.log("stats ok");

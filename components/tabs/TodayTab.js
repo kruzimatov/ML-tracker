@@ -24,7 +24,7 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, hours, setHours, log, totalDone, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, log, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -117,7 +117,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
         </section>
       )}
 
-      <ReviewCard due={due} setReview={setReview} jumpTo={jumpTo} />
+      <ReviewCard due={due} setReview={setReview} setRecall={setRecall} jumpTo={jumpTo} />
       <NoteCard id={iso} title="Today's note" prompt="What did I learn today? What is stuck? What will I do first tomorrow?" notes={notes} setNotes={setNotes} />
       {weekReviewDay && (
         <NoteCard id={`w${wk + 1}`} title={`Week ${wk + 1} review`} prompt="Did I ship the deliverable? What slowed me down? What changes next week? (Do not restart. Continue.)" notes={notes} setNotes={setNotes} />
