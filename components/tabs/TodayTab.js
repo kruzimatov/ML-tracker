@@ -6,6 +6,7 @@ import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
 import { COURSE, SQUARES } from "./courseData";
 import { toISO, todayISO } from "@/lib/dates";
+import { checkinDays, streaks, studiedDays } from "@/lib/stats";
 import BackupNudge from "./BackupNudge";
 import { NoteCard, PastNotes, ReviewCard, dueReviews } from "./TodayExtras";
 import PageHead from "../ui/PageHead";
@@ -23,7 +24,7 @@ const dateOf = (n) => {
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, hours, setHours, totalDone, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, hours, setHours, log, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -35,17 +36,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   const wk = Math.floor(today / 7);
   const week = WEEKS[wk];
 
-  let streak = 0;
-  if (started) {
-    let n = today;
-    if (!checked(n)) n--;
-    while (n >= 0 && checked(n)) { streak++; n--; }
-  }
-  let best = 0, run = 0;
-  for (let n = 0; n <= (started ? today : -1); n++) {
-    run = checked(n) ? run + 1 : 0;
-    best = Math.max(best, run);
-  }
+  const { current: streak, best } = streaks(studiedDays({ hours, notes, log, checkins: checkinDays(roadmap, toISO(PLAN_START)) }), todayISO());
   const elapsed = started ? today + 1 : 0;
   const doneDays = Array.from({ length: elapsed }).filter((_, n) => checked(n)).length;
   const jobsThisWeek = Array.from({ length: 5 }).filter((_, j) => roadmap[`${wk}:job:${j}`]).length;
@@ -88,7 +79,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
       <p className={styles.sub}>Week {wk + 1} · {week.deliverable}</p>
 
       <div className={styles.tiles}>
-        <div className={styles.tile}><span className={styles.n}>{streak}</span><span className={styles.l}>day streak</span></div>
+        <div className={styles.tile}><span className={styles.n}>{streak}</span><span className={styles.l}>study streak</span></div>
         <div className={styles.tile}><span className={styles.n}>{best}</span><span className={styles.l}>best streak</span></div>
         <div className={styles.tile}><span className={styles.n}>{doneDays}<small>/{elapsed}</small></span><span className={styles.l}>days checked in</span></div>
         <div className={styles.tile}><span className={styles.n}>{jobsThisWeek}<small>/5</small></span><span className={styles.l}>jobs this week · {jobsTotal} total</span></div>

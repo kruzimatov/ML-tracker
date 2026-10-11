@@ -32,7 +32,8 @@ export default function Sidebar({ groups, activeTab, onTab, done, total, onSearc
     onTab(id);
   };
   const tapGroup = (g) => (g.tabs.length === 1 ? go(g.tabs[0].id) : setSheet(sheet === g.id ? null : g.id));
-  const open = sheet === "more" ? { id: "more", label: "More" } : groups.find((g) => g.id === sheet);
+  const extra = groups.filter((g) => g.more).flatMap((g) => g.tabs);
+  const open = sheet === "more" ? { id: "more", label: "More", tabs: extra } : groups.find((g) => g.id === sheet);
 
   return (
     <>
@@ -65,23 +66,24 @@ export default function Sidebar({ groups, activeTab, onTab, done, total, onSearc
         <>
           <div className={styles.scrim} onClick={() => setSheet(null)} />
           <div className={styles.sheet} role="dialog" aria-label={open.label}>
-            {open.id === "more" ? <Tools done={done} total={total} /> : open.tabs.map((t) => (
+            {open.tabs.map((t) => (
               <button key={t.id} className={`${styles.tab} ${t.id === activeTab ? styles.on : ""}`} onClick={() => go(t.id)}>
                 <span>{t.label}</span>{t.badge && <small>{t.badge}</small>}
               </button>
             ))}
+            {open.id === "more" && <Tools done={done} total={total} />}
           </div>
         </>
       )}
 
       <nav className={styles.bottom} aria-label="Main navigation">
-        {groups.map((g) => (
+        {groups.filter((g) => !g.more).map((g) => (
           <button key={g.id} className={g.tabs.some((t) => t.id === activeTab) ? styles.on : ""} onClick={() => tapGroup(g)}>
             {g.label}
           </button>
         ))}
         <button onClick={() => { setSheet(null); onSearch(); }}>Search</button>
-        <button className={sheet === "more" ? styles.on : ""} onClick={() => setSheet(sheet === "more" ? null : "more")}>More</button>
+        <button className={sheet === "more" || extra.some((t) => t.id === activeTab) ? styles.on : ""} onClick={() => setSheet(sheet === "more" ? null : "more")}>More</button>
       </nav>
     </>
   );

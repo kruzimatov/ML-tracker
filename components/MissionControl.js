@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { notifyStored, useStored } from "@/lib/useStored";
 import { runLaterMigration } from "@/lib/migrate";
 import PwaRegister from "./PwaRegister";
@@ -14,6 +14,8 @@ import ScratchTab from "./tabs/ScratchTab";
 import LedgerTab from "./tabs/LedgerTab";
 import ProRoadmapTab from "./tabs/ProRoadmapTab";
 import HumblebeeTab from "./tabs/HumblebeeTab";
+import ProgressTab from "./tabs/ProgressTab";
+import { todayISO } from "@/lib/dates";
 import { CHAPTERS } from "./tabs/patternsData";
 import { MODULES } from "./tabs/scratchData";
 import { LEDGER_TOTAL } from "./tabs/ledgerData";
@@ -35,6 +37,7 @@ const TOTALS = {
 
 const GROUPS = [
   { id: "today", label: "Today", tabs: [{ id: "today", label: "Today", short: "Td" }] },
+  { id: "progress", label: "Progress", tabs: [{ id: "progress", label: "Progress", short: "Pr" }] },
   {
     id: "plan", label: "Plan", tabs: [
       { id: "roadmap", label: "13 Weeks", short: "13W" },
@@ -49,7 +52,7 @@ const GROUPS = [
       { id: "patterns", label: "Patterns", short: "Pt", doc: true },
     ],
   },
-  { id: "library", label: "Library", tabs: [{ id: "ledger", label: "Guide Index", short: "GI" }] },
+  { id: "library", label: "Library", more: true, tabs: [{ id: "ledger", label: "Guide Index", short: "GI" }] },
 ];
 
 const DOC_TABS = new Set(GROUPS.flatMap((g) => g.tabs.filter((t) => t.doc).map((t) => t.id)));
@@ -59,6 +62,8 @@ const scrollToEl = (id) => {
   if (el?.matches("input, textarea")) el.focus({ preventScroll: true });
 };
 const countDone = (obj) => Object.values(obj).filter(Boolean).length;
+const noop = () => () => {};
+const LABELS = Object.fromEntries(GROUPS.flatMap((g) => g.tabs.map((t) => [t.id, t.label])));
 
 export default function MissionControl() {
   const [tab, setTab] = useState("today");
@@ -76,6 +81,9 @@ export default function MissionControl() {
   const [notes, setNotes] = useStored("mc-notes");
   const [review, setReview] = useStored("mc-review");
   const [hours, setHours] = useStored("mc-hours");
+  const [log, setLog] = useStored("mc-log");
+  const [goal, setGoal] = useStored("mc-goal");
+  const hydrated = useSyncExternalStore(noop, () => true, () => false);
 
   const jumpTo = useCallback(
     (nextTab, elId) => {
@@ -121,6 +129,14 @@ export default function MissionControl() {
   const stores = { roadmap, pro, course, humblebee, scratch, patterns, ledger };
   const done = Object.values(stores).reduce((n, s) => n + countDone(s), 0);
   const total = Object.values(TOTALS).reduce((n, x) => n + x, 0);
+  const tracks = Object.keys(TOTALS).map((id) => ({ label: LABELS[id], done: countDone(stores[id]), total: TOTALS[id] }));
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const iso = todayISO();
+    setLog((l) => (l[iso] === done ? l : { ...l, [iso]: done }));
+  }, [hydrated, done, setLog]);
+
   const groups = GROUPS.map((g) => ({
     ...g,
     tabs: g.tabs.map((t) => ({ ...t, badge: TOTALS[t.id] ? `${countDone(stores[t.id])}/${TOTALS[t.id]}` : null })),
@@ -134,7 +150,10 @@ export default function MissionControl() {
       {search && <CommandPalette groups={groups} onClose={() => setSearch(false)} jumpTo={jumpTo} />}
       <main className="mc-main">
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} hours={hours} setHours={setHours} totalDone={done} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} hours={hours} setHours={setHours} log={log} totalDone={done} jumpTo={jumpTo} />
+      )}
+      {tab === "progress" && (
+        <ProgressTab hours={hours} notes={notes} roadmap={roadmap} log={log} review={review} patterns={patterns} scratch={scratch} pro={pro} goal={goal} setGoal={setGoal} tracks={tracks} done={done} />
       )}
       {tab === "roadmap" && <RoadmapTab state={roadmap} setState={setRoadmap} jumpTo={jumpTo} />}
       {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} setReview={setReview} jumpTo={jumpTo} />}
