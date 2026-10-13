@@ -23,8 +23,23 @@ const dateOf = (n) => {
 };
 const fmt = (d, o = { month: "short", day: "numeric" }) => d.toLocaleDateString("en-US", o);
 const dayKey = (n) => `${Math.floor(n / 7)}:day:${n % 7}`;
+const RING = 2 * Math.PI * 52;
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, log, totalDone, jumpTo }) {
+function Ring({ value, goal }) {
+  const hit = value >= goal;
+  return (
+    <label htmlFor="log-hours" className={`${styles.ring} ${hit ? styles.ringHit : ""}`} title="Log hours worked today">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" className={styles.track} />
+        <circle cx="60" cy="60" r="52" className={styles.arc} strokeDasharray={RING} strokeDashoffset={RING * (1 - Math.min(value / goal, 1))} />
+      </svg>
+      <span className={styles.ringN}>{value}<small>h</small></span>
+      <span className={styles.l}>of {goal}h goal</span>
+    </label>
+  );
+}
+
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, goal, log, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -78,8 +93,9 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
       </>} color="var(--teal)" />
       <p className={styles.sub}>Week {wk + 1} · {week.deliverable}</p>
 
-      <div className={styles.tiles}>
-        <div className={styles.tile}><span className={styles.n}>{streak}</span><span className={styles.l}>study streak</span></div>
+      <div className={styles.hero}>
+        <Ring value={hoursToday || 0} goal={goal.day ?? 4} />
+        <div className={`${styles.tile} ${streak > 0 ? styles.live : ""}`}><span className={styles.n}>{streak}</span><span className={styles.l}>study streak</span></div>
         <div className={styles.tile}><span className={styles.n}>{best}</span><span className={styles.l}>best streak</span></div>
         <div className={styles.tile}><span className={styles.n}>{doneDays}<small>/{elapsed}</small></span><span className={styles.l}>days checked in</span></div>
         <div className={styles.tile}><span className={styles.n}>{jobsThisWeek}<small>/5</small></span><span className={styles.l}>jobs this week · {jobsTotal} total</span></div>

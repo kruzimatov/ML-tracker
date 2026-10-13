@@ -41,7 +41,7 @@ export default function Sidebar({ groups, activeTab, onTab, done, total, onSearc
     <>
       <aside className={`${styles.side} ${rail ? styles.rail : ""}`} aria-label="Main navigation">
         <div className={styles.head}>
-          {!rail && <span className={styles.brand}>Mission Control</span>}
+          {!rail && <span className={styles.brand}><i className={styles.led} aria-hidden="true" />Mission Control</span>}
           <button className={styles.icon} onClick={onRail} aria-label={rail ? "Expand sidebar" : "Collapse sidebar"} title={rail ? "Expand" : "Collapse"}>
             {rail ? "»" : "«"}
           </button>

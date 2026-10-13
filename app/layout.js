@@ -1,17 +1,8 @@
-import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono, Balsamiq_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Balsamiq_Sans } from "next/font/google";
 import "./globals.css";
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const plexSans = IBM_Plex_Sans({
-  variable: "--font-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 const balsamiq = Balsamiq_Sans({
   variable: "--font-balsamiq",
@@ -19,13 +10,7 @@ const balsamiq = Balsamiq_Sans({
   weight: ["400", "700"],
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
-
-export const viewport = { themeColor: "#0b0f14" };
+export const viewport = { themeColor: "#07090c" };
 
 export const metadata = {
   appleWebApp: { capable: true, title: "Mission", statusBarStyle: "black" },
@@ -36,7 +21,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable} ${balsamiq.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geist.variable} ${geistMono.variable} ${balsamiq.variable}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
