@@ -133,6 +133,7 @@ export default function MissionControl() {
   const done = Object.values(stores).reduce((n, s) => n + countDone(s), 0);
   const total = Object.values(TOTALS).reduce((n, x) => n + x, 0);
   const tracks = Object.keys(TOTALS).map((id) => ({ label: LABELS[id], done: countDone(stores[id]), total: TOTALS[id] }));
+  const counts = Object.fromEntries(Object.keys(TOTALS).map((id) => [id, `${countDone(stores[id])}/${TOTALS[id]}`]));
 
   useEffect(() => {
     if (!hydrated) return;
@@ -142,7 +143,7 @@ export default function MissionControl() {
 
   const groups = GROUPS.map((g) => ({
     ...g,
-    tabs: g.tabs.map((t) => ({ ...t, badge: TOTALS[t.id] ? `${countDone(stores[t.id])}/${TOTALS[t.id]}` : null })),
+    tabs: g.tabs.map((t) => ({ ...t, badge: counts[t.id] ?? null })),
   }));
 
   return (
@@ -153,7 +154,7 @@ export default function MissionControl() {
       {search && <CommandPalette groups={groups} onClose={() => setSearch(false)} jumpTo={jumpTo} />}
       <main className="mc-main">
       {tab === "today" && (
-        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} notes={notes} setNotes={setNotes} review={review} setReview={setReview} recall={recall} setRecall={setRecall} hours={hours} setHours={setHours} goal={goal} log={log} totalDone={done} jumpTo={jumpTo} />
+        <TodayTab roadmap={roadmap} setRoadmap={setRoadmap} patterns={patterns} scratch={scratch} course={course} pro={pro} humblebee={humblebee} counts={counts} notes={notes} setNotes={setNotes} review={review} setReview={setReview} recall={recall} setRecall={setRecall} hours={hours} setHours={setHours} goal={goal} log={log} totalDone={done} jumpTo={jumpTo} />
       )}
       {tab === "progress" && (
         <ProgressTab hours={hours} notes={notes} roadmap={roadmap} log={log} review={review} patterns={patterns} scratch={scratch} pro={pro} goal={goal} setGoal={setGoal} tracks={tracks} done={done} recall={recall} jumpTo={jumpTo} />

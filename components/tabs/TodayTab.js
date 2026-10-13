@@ -5,6 +5,8 @@ import { PLAN_START, WEEKS } from "./roadmapData";
 import { CHAPTERS } from "./patternsData";
 import { MODULES } from "./scratchData";
 import { COURSE, SQUARES } from "./courseData";
+import { HUMBLEBEE } from "./humblebeeData";
+import { PHASES } from "./proRoadmapData";
 import { toISO, todayISO } from "@/lib/dates";
 import { checkinDays, streaks, studiedDays } from "@/lib/stats";
 import BackupNudge from "./BackupNudge";
@@ -39,7 +41,7 @@ function Ring({ value, goal }) {
   );
 }
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, goal, log, totalDone, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, humblebee, counts, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, goal, log, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -69,6 +71,17 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
   );
   const courseWeeks = COURSE.courses.flatMap((c, ci) => c.weeks.map((w, wi) => ({ ci, wi, t: w.t })));
   const nextCourse = courseWeeks.find((w) => SQUARES.some((sq) => !course[`${w.ci}-${w.wi}:${sq.key}`]));
+  const nextHb = HUMBLEBEE.modules
+    .flatMap((m, mi) => m.sections.flatMap((sec, si) => sec.items.map((item, ii) => ({ mi, si, item, heading: sec.heading, k: `${mi}-${si}-${ii}` }))))
+    .find((x) => !humblebee[x.k]);
+  const nextPro = PHASES.flatMap((p) => p.topics.filter((x) => !x.nocheck).map((x) => ({ p, x }))).find(({ x }) => !pro[x.id]);
+  const nextUp = [
+    { tab: "course", id: null, label: nextCourse && `ML Course · C${nextCourse.ci + 1} W${nextCourse.wi + 1}`, title: nextCourse?.t, empty: "Course complete" },
+    { tab: "patterns", id: nextPattern?.id, label: `Pattern · ${nextPattern?.num}`, title: nextPattern?.title, empty: "All patterns done" },
+    { tab: "scratch", id: nextModule?.id, label: nextModule && `From Scratch · ${nextModule.track === "a" ? `M${nextModule.mod}` : `B${nextModule.mod - 8}`}`, title: nextModule?.name, empty: "All modules done" },
+    { tab: "humblebee", id: nextHb && `hb-${nextHb.mi}-${nextHb.si}`, label: nextHb && `HumbleBee · M${nextHb.mi + 1} ${nextHb.heading}`, title: nextHb?.item, empty: "HumbleBee complete" },
+    { tab: "pro", id: nextPro && `node-${nextPro.x.id}`, label: nextPro && `Full Roadmap · ${nextPro.p.label.en}`, title: nextPro?.x.label.en, empty: "Full Roadmap complete" },
+  ];
   const iso = todayISO();
   const due = dueReviews(patterns, scratch, pro, review, iso);
   const weekReviewDay = started && !over && today % 7 >= 5;
@@ -133,6 +146,18 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
         </section>
       )}
 
+      <section className={styles.card}>
+        <h2 className={styles.h2}>Also today</h2>
+        <div className={styles.next}>
+          {nextUp.map((n) => n.title ? (
+            <button key={n.tab} className={styles.nextCard} onClick={() => jumpTo(n.tab, n.id)}>
+              <span className={styles.nl}>{n.label}<b>{counts[n.tab]}</b></span>
+              <span className={styles.nt}>{n.title}</span>
+            </button>
+          ) : <div key={n.tab} className={styles.nextCard}><span className={styles.nt}>{n.empty}</span></div>)}
+        </div>
+      </section>
+
       <ReviewCard due={due} setReview={setReview} setRecall={setRecall} jumpTo={jumpTo} />
       <NoteCard id={iso} title="Today's note" prompt="What did I learn today? What is stuck? What will I do first tomorrow?" notes={notes} setNotes={setNotes} />
       {weekReviewDay && (
@@ -160,29 +185,6 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
         </div>
       </section>
 
-      <section className={styles.card}>
-        <h2 className={styles.h2}>Up next</h2>
-        <div className={styles.next}>
-          {nextCourse ? (
-            <button className={styles.nextCard} onClick={() => jumpTo("course", null)}>
-              <span className={styles.nl}>Andrew Ng · Course {nextCourse.ci + 1}, Week {nextCourse.wi + 1}</span>
-              <span className={styles.nt}>{nextCourse.t}</span>
-            </button>
-          ) : <div className={styles.nextCard}><span className={styles.nt}>Course complete</span></div>}
-          {nextPattern ? (
-            <button className={styles.nextCard} onClick={() => jumpTo("patterns", nextPattern.id)}>
-              <span className={styles.nl}>Next pattern · {nextPattern.num}</span>
-              <span className={styles.nt}>{nextPattern.title}</span>
-            </button>
-          ) : <div className={styles.nextCard}><span className={styles.nt}>All patterns done</span></div>}
-          {nextModule ? (
-            <button className={styles.nextCard} onClick={() => jumpTo("scratch", nextModule.id)}>
-              <span className={styles.nl}>Next module · {nextModule.track === "a" ? `M${nextModule.mod}` : `B${nextModule.mod - 8}`}</span>
-              <span className={styles.nt}>{nextModule.name}</span>
-            </button>
-          ) : <div className={styles.nextCard}><span className={styles.nt}>All modules done</span></div>}
-        </div>
-      </section>
       <PastNotes notes={notes} skip={iso} />
     </div>
   );
