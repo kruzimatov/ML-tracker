@@ -50,7 +50,7 @@ function run(q) {
   try {
     if (q.lang === "python") return execFileSync("python3", ["-c", q.code], opts);
     if (q.lang === "sh") return execFileSync("bash", ["-c", `${q.setup ? `${q.setup}\n` : ""}${q.code}`], opts);
-    if (q.lang === "sql") return execFileSync("sqlite3", ["-batch", "-separator", " | ", ":memory:"], { ...opts, input: `${q.setup ?? ""}\n${q.code}` });
+    if (q.lang === "sql") return execFileSync("sqlite3", ["-batch", "-separator", " | ", "-nullvalue", "NULL", ":memory:"], { ...opts, input: `${q.setup ?? ""}\n${q.code}` });
     throw new Error(`unknown lang ${q.lang}`);
   } catch (e) {
     if (!e.stderr) throw e;

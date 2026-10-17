@@ -15,6 +15,10 @@ import * as numpy from "./q/numpy.js";
 import * as pandas from "./q/pandas.js";
 import * as sql from "./q/sql.js";
 import * as eda from "./q/eda.js";
+import * as advsql from "./q/advsql.js";
+import * as grokking from "./q/grokking.js";
+import * as bash from "./q/bash.js";
+import * as advstats from "./q/advstats.js";
 
 export const LEVELS = ["", "Easy", "Medium", "Hard"];
 
@@ -36,6 +40,10 @@ export const TOPICS = [
   { id: "pandas", mod: "Module 3", name: "Pandas & cleaning", src: pandas },
   { id: "sql", mod: "Module 3", name: "SQL", src: sql },
   { id: "eda", mod: "Module 3", name: "EDA & visualization", src: eda },
+  { id: "advsql", mod: "Elective", name: "Advanced SQL", src: advsql },
+  { id: "grokking", mod: "Elective", name: "Algorithms deep dive", src: grokking },
+  { id: "bash", mod: "Elective", name: "Bash scripting", src: bash },
+  { id: "advstats", mod: "Elective", name: "Advanced inference", src: advstats },
 ];
 
 export const QUESTIONS = TOPICS.flatMap((t) => t.src.QUESTIONS.map((q) => ({ ...q, topic: t.id })));
