@@ -1,6 +1,7 @@
 // Run: node scripts/check-exam.mjs
 // Validates every exam question and runs each `output` question's code for real
 // (python3 / bash / sqlite3), asserting the marked answer equals what the code prints.
+// calc questions carry hidden `verify` Python that must print the numeric answer.
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync } from "node:fs";
@@ -26,6 +27,7 @@ for (const q of QUESTIONS) {
   assert.ok(q.why, `${q.id}: no explanation`);
   if (q.kind === "calc") {
     assert.equal(typeof q.answer, "number", `${q.id}: calc answer`);
+    assert.ok(q.verify, `${q.id}: calc without verify code`);
     continue;
   }
   assert.ok(q.options?.length >= 2, `${q.id}: options`);
@@ -60,6 +62,11 @@ function run(q) {
 }
 
 let ran = 0;
+for (const q of QUESTIONS.filter((x) => x.kind === "calc")) {
+  const got = parseFloat(run({ lang: "python", code: q.verify }));
+  ran++;
+  if (!(Math.abs(got - q.answer) <= Math.max(q.tol ?? 0, 1e-9))) fail.push(`${q.id}: answer ${q.answer} but verify computed ${got}`);
+}
 for (const q of QUESTIONS.filter((x) => x.kind === "output" && x.lang)) {
   const got = norm(run(q));
   ran++;
@@ -82,4 +89,4 @@ if (fail.length) {
   process.exit(1);
 }
 const lv = (n) => QUESTIONS.filter((q) => q.level === n).length;
-console.log(`ok: ${QUESTIONS.length} questions (${lv(1)} easy, ${lv(2)} medium, ${lv(3)} hard), ${INTERVIEW.length} interview, ${ran} code outputs verified by running`);
+console.log(`ok: ${QUESTIONS.length} questions (${lv(1)} easy, ${lv(2)} medium, ${lv(3)} hard), ${INTERVIEW.length} interview, ${ran} answers verified by running code`);

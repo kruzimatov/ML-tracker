@@ -67,7 +67,9 @@ export default function ExamSession({ items, mode, deadline, onRecord, onExit })
 
   useEffect(() => {
     const onKey = (e) => {
-      if (finished || e.target.matches?.("input, textarea")) return;
+      if (finished) return;
+      if (e.key === "Enter" && q.kind === "calc" && !mock && !revealed) return pick && check();
+      if (e.target.matches?.("input, textarea") && e.key !== "Enter") return;
       const n = Number(e.key);
       if (q.order && n >= 1 && n <= q.order.length && (mock || !revealed)) choose(q.order[n - 1]);
       else if (e.key === "Enter" && (mock || revealed)) go(i + 1);

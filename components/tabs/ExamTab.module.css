@@ -69,6 +69,8 @@
 .dim { opacity: 0.55; }
 .calc { width: 220px; max-width: 100%; background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 12px; font-family: var(--font-mono); font-size: 1rem; }
 .calc:focus { border-color: var(--accent); outline: none; }
+.calc.right { border-color: var(--green); }
+.calc.wrong { border-color: var(--red); }
 
 .why { border-left: 3px solid; padding: 10px 14px; border-radius: 0 var(--r) var(--r) 0; font-size: 0.9rem; color: var(--text2); }
 .why b { color: var(--text); }
