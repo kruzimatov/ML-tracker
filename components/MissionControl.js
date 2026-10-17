@@ -16,6 +16,7 @@ import LedgerTab from "./tabs/LedgerTab";
 import ProRoadmapTab from "./tabs/ProRoadmapTab";
 import HumblebeeTab from "./tabs/HumblebeeTab";
 import ProgressTab from "./tabs/ProgressTab";
+import ExamTab from "./tabs/ExamTab";
 import { todayISO } from "@/lib/dates";
 import { CHAPTERS } from "./tabs/patternsData";
 import { MODULES } from "./tabs/scratchData";
@@ -49,6 +50,7 @@ const GROUPS = [
     id: "learn", label: "Learn", tabs: [
       { id: "course", label: "ML Course", short: "ML" },
       { id: "humblebee", label: "HumbleBee", short: "HB" },
+      { id: "exam", label: "Exam prep", short: "Ex" },
       { id: "scratch", label: "From Scratch", short: "FS", doc: true },
       { id: "patterns", label: "Patterns", short: "Pt", doc: true },
     ],
@@ -85,6 +87,7 @@ export default function MissionControl() {
   const [log, setLog] = useStored("mc-log");
   const [goal, setGoal] = useStored("mc-goal");
   const [recall, setRecall] = useStored("mc-recall");
+  const [exam, setExam] = useStored("mc-exam");
   const hydrated = useSyncExternalStore(noop, () => true, () => false);
 
   const jumpTo = useCallback(
@@ -163,6 +166,7 @@ export default function MissionControl() {
       {tab === "pro" && <ProRoadmapTab state={pro} setState={setPro} setReview={setReview} jumpTo={jumpTo} />}
       {tab === "course" && <CourseTab state={course} setState={setCourse} jumpTo={jumpTo} />}
       {tab === "humblebee" && <HumblebeeTab state={humblebee} setState={setHumblebee} />}
+      {tab === "exam" && <ExamTab exam={exam} setExam={setExam} />}
       {tab === "scratch" && <ScratchTab state={scratch} setState={setScratch} setReview={setReview} />}
       {tab === "patterns" && <PatternsTab state={patterns} setState={setPatterns} setReview={setReview} />}
       {tab === "ledger" && <LedgerTab state={ledger} setState={setLedger} />}
