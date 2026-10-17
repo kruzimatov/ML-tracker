@@ -11,6 +11,7 @@ import { toISO, todayISO } from "@/lib/dates";
 import { checkinDays, streaks, studiedDays } from "@/lib/stats";
 import BackupNudge from "./BackupNudge";
 import { NoteCard, PastNotes, ReviewCard, dueReviews } from "./TodayExtras";
+import ExamReadiness from "./ExamReadiness";
 import PageHead from "../ui/PageHead";
 import styles from "./TodayTab.module.css";
 
@@ -41,7 +42,7 @@ function Ring({ value, goal }) {
   );
 }
 
-export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, humblebee, counts, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, goal, log, totalDone, jumpTo }) {
+export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, course, pro, humblebee, counts, exam, notes, setNotes, review, setReview, recall, setRecall, hours, setHours, goal, log, totalDone, jumpTo }) {
   const dayN = useSyncExternalStore(noop, dayNow, () => NOT_READY);
   if (dayN === NOT_READY) return <div className={`${styles.wrap} mc-fade`} />;
 
@@ -158,6 +159,7 @@ export default function TodayTab({ roadmap, setRoadmap, patterns, scratch, cours
         </div>
       </section>
 
+      <ExamReadiness exam={exam} jumpTo={jumpTo} />
       <ReviewCard due={due} setReview={setReview} setRecall={setRecall} jumpTo={jumpTo} />
       <NoteCard id={iso} title="Today's note" prompt="What did I learn today? What is stuck? What will I do first tomorrow?" notes={notes} setNotes={setNotes} />
       {weekReviewDay && (

@@ -93,6 +93,12 @@
 .pass { color: var(--green); text-shadow: 0 0 22px color-mix(in srgb, var(--green) 45%, transparent); }
 .fail { color: var(--accent); text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 45%, transparent); }
 .score + .topics { margin-bottom: 18px; }
+.ready { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.ready > span { font-family: var(--font-mono); font-size: 2.6rem; font-weight: 600; line-height: 1; letter-spacing: -0.03em; }
+.ready > span small { font-size: 1rem; color: var(--text3); }
+.readyInfo { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; color: var(--text2); }
+.readyInfo b { color: var(--text); font-weight: 600; }
+.ready .primary { align-self: center; }
 .miss { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; border-top: 1px solid var(--border); }
 .miss:first-of-type { border-top: none; padding-top: 0; }
 .yours { color: var(--red); font-size: 0.88rem; white-space: pre-wrap; }

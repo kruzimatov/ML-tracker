@@ -5,6 +5,7 @@ import { PLAN_START } from "./roadmapData";
 import { INTERVALS, REVIEW_ITEMS, dueReviews } from "./TodayExtras";
 import { toISO, todayISO } from "@/lib/dates";
 import { checkinDays, doneSince, goalStats, heatColumns, isoOf, dayNum, recallRate, reviewForecast, streaks, studiedDays, weakest, weekTotals } from "@/lib/stats";
+import ExamReadiness from "./ExamReadiness";
 import PageHead from "../ui/PageHead";
 import styles from "./ProgressTab.module.css";
 
@@ -29,7 +30,7 @@ function Bars({ items, max, line, lineLabel, unit }) {
   );
 }
 
-export default function ProgressTab({ hours, notes, roadmap, log, review, patterns, scratch, pro, goal, setGoal, tracks, done, recall, jumpTo }) {
+export default function ProgressTab({ hours, notes, roadmap, log, review, patterns, scratch, pro, goal, setGoal, tracks, done, recall, exam, jumpTo }) {
   const today = useSyncExternalStore(noop, todayISO, () => null);
   if (!today) return <div className={styles.wrap} />;
 
@@ -116,6 +117,8 @@ export default function ProgressTab({ hours, notes, roadmap, log, review, patter
             items={forecast.map((v, i) => ({ key: i, v, label: i === 0 ? "Today" : long(isoOf(t + i)), tick: i === 0 ? "today" : i % 7 === 0 ? short(isoOf(t + i)) : "" }))} />
         </section>
       </div>
+
+      <ExamReadiness exam={exam} jumpTo={jumpTo} />
 
       <section className={styles.card}>
         <h2 className={styles.h2}>Recall</h2>
