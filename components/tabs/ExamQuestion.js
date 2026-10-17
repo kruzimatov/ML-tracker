@@ -24,6 +24,7 @@ export default function ExamQuestion({ q, pick, reveal, onPick }) {
         <span>{KIND[q.kind]}</span>
       </div>
       <p className={styles.qText}><Rich text={q.q} /></p>
+      {q.data && <pre className={`${styles.code} ${styles.data}`}>{q.data}</pre>}
       {q.code && <pre className={styles.code}>{q.code}</pre>}
 
       {q.kind === "calc" ? (

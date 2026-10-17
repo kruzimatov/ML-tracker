@@ -11,6 +11,10 @@ import * as tensors from "./q/tensors.js";
 import * as describe from "./q/describe.js";
 import * as probability from "./q/probability.js";
 import * as inference from "./q/inference.js";
+import * as numpy from "./q/numpy.js";
+import * as pandas from "./q/pandas.js";
+import * as sql from "./q/sql.js";
+import * as eda from "./q/eda.js";
 
 export const LEVELS = ["", "Easy", "Medium", "Hard"];
 
@@ -28,6 +32,10 @@ export const TOPICS = [
   { id: "describe", mod: "Module 2", name: "Stats: describing data", src: describe },
   { id: "probability", mod: "Module 2", name: "Probability & counting", src: probability },
   { id: "inference", mod: "Module 2", name: "Stats: inference", src: inference },
+  { id: "numpy", mod: "Module 3", name: "NumPy", src: numpy },
+  { id: "pandas", mod: "Module 3", name: "Pandas & cleaning", src: pandas },
+  { id: "sql", mod: "Module 3", name: "SQL", src: sql },
+  { id: "eda", mod: "Module 3", name: "EDA & visualization", src: eda },
 ];
 
 export const QUESTIONS = TOPICS.flatMap((t) => t.src.QUESTIONS.map((q) => ({ ...q, topic: t.id })));

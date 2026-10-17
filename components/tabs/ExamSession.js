@@ -165,6 +165,7 @@ function Results({ items, picks, results, mode, onExit }) {
           {missed.map((x) => (
             <div key={x.id} className={styles.miss}>
               <p className={styles.qText}><Rich text={x.q} /></p>
+              {x.data && <pre className={`${styles.code} ${styles.data}`}>{x.data}</pre>}
               {x.code && <pre className={styles.code}>{x.code}</pre>}
               <p className={styles.yours}>Your answer: <Rich text={String(shown(x, picks[x.id]))} /></p>
               <p className={styles.correct}>Correct: <Rich text={String(x.kind === "calc" ? x.answer : x.options[x.answer])} /></p>

@@ -57,6 +57,7 @@
 .qText code, .opt code, .why code, .model code, .expl code, .yours code, .correct code { font-family: var(--font-mono); font-size: 0.86em; background: var(--inline-code); padding: 1px 5px; border-radius: 4px; }
 .code { font-family: var(--font-mono); font-size: 0.84rem; line-height: 1.55; background: var(--code-bg); color: var(--code-text); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; overflow-x: auto; white-space: pre; }
 
+.data { color: var(--text2); font-size: 0.78rem; border-style: dashed; }
 .opts { display: grid; gap: 8px; }
 .opt { display: flex; align-items: flex-start; gap: 12px; text-align: left; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--r); padding: 11px 14px; color: var(--text); font-size: 0.94rem; cursor: pointer; }
 .opt:hover:not(:disabled) { border-color: var(--text3); }
